@@ -15,7 +15,7 @@ type databaseConfig struct{
 	Pass string `envconfig:"DB_PASSWORD" default:"pr_card_pass"`
 	IP string   `envconfig:"DB_IP" default:"localhost"`
 	Port string `envconfig:"DB_PORT" default:"3306"`
-	Name string `envconfig:"DB_NAME" default:"pr_card_app1"`
+	Name string `envconfig:"DB_NAME" default:"pr_card"`
 }
 
 func GetServerPort() string{
