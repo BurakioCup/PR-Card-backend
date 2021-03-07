@@ -4,12 +4,14 @@
 SET CHARSET UTF8;
 DROP SCHEMA IF EXISTS `pr_card`;
 CREATE SCHEMA IF NOT EXISTS `pr_card` DEFAULT CHARACTER SET utf8;
-USE `qr_card`;
+USE `pr_card`;
 
 ---- drop ----
 DROP TABLE IF EXISTS `users`;
 DROP TABLE IF EXISTS `cards`;
-
+DROP TABLE IF EXISTS `card_matrixs`;
+DROP TABLE IF EXISTS `card_my_word`;
+DROP TABLE IF EXISTS `owned_cards`;
 
 ---- create ----
 CREATE TABLE IF NOT EXISTS `pr_card`.`users` (
