@@ -11,3 +11,10 @@ func CreateAuthHandler()gin.HandlerFunc{
 		c.JSON(http.StatusOK, "")
 	}
 }
+
+func SigninHandler()gin.HandlerFunc{
+	return func(c *gin.Context) {
+
+		c.JSON(http.StatusOK, "")
+	}
+}

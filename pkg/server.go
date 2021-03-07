@@ -15,6 +15,8 @@ func init() {
 	Server = gin.Default()
 	//アカウント作成
 	Server.POST("/create/auth", controller.CreateAuthHandler())
+	//アカウント認証
+	Server.GET("/sign/in", controller.SigninHandler())
 	//ユーザが持っている名刺一覧
 	Server.GET("/read/cards", middleware.Authenticate(controller.ReadCardsHandler()))
 	//一覧から一つの名刺を詳細表示
