@@ -45,7 +45,7 @@ func SignUpHandler()gin.HandlerFunc{
 			)
 			return
 		}
-		c.JSON(http.StatusOK, view.ReturnSignUpResponse(tokenId))
+		c.JSON(http.StatusOK, view.ReturnSignUpResponse(tokenId,loginId))
 	}
 }
 
