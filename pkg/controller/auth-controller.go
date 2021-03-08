@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"PR-Card_backend/pkg/hash"
 	"PR-Card_backend/pkg/model/dao"
 	"PR-Card_backend/pkg/view"
 	"github.com/gin-gonic/gin"
@@ -34,7 +35,7 @@ func SignUpHandler()gin.HandlerFunc{
 		}
 
 		client := dao.MakeSignUpClient()
-		tokenId, err := client.Request(userID,pass)
+		tokenId, err := client.Request(userID,hash.CreateHashString(pass))
 		if err!=nil{
 			log.Println(err)
 			view.ReturnErrorResponse(
