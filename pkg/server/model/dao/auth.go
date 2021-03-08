@@ -1,6 +1,7 @@
 package dao
 
 import (
+	"fmt"
 	"github.com/google/uuid"
 	"log"
 )
@@ -25,6 +26,7 @@ func (info *signUp)Request(userID,pass string)(string,error){
 	if err != nil {
 		return "",err
 	}
+	fmt.Println(pass)
 	_, err = stmt.Exec(userID, pass, tokenId)
 	return tokenId.String(),err
 }

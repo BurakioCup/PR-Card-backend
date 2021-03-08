@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"PR-Card_backend/pkg/hash"
 	"PR-Card_backend/pkg/jwt"
 	"PR-Card_backend/pkg/server/model/dao"
 	"PR-Card_backend/pkg/server/view"
@@ -34,8 +35,8 @@ func SignUpHandler()gin.HandlerFunc{
 			return
 		}
 		client := dao.MakeSignUpClient()
-		//loginId, err := client.Request(userID,hash.CreateHashString(pass))
-		loginId, err := client.Request(userID,pass)
+		loginId, err := client.Request(userID,hash.CreateHashString(pass))
+		//loginId, err := client.Request(userID,pass)
 		if err!=nil{
 			log.Println(err)
 			view.ReturnErrorResponse(
