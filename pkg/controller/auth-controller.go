@@ -2,6 +2,7 @@ package controller
 
 import (
 	"PR-Card_backend/pkg/hash"
+	"PR-Card_backend/pkg/jwt"
 	"PR-Card_backend/pkg/model/dao"
 	"PR-Card_backend/pkg/view"
 	"github.com/gin-gonic/gin"
@@ -35,7 +36,7 @@ func SignUpHandler()gin.HandlerFunc{
 		}
 
 		client := dao.MakeSignUpClient()
-		tokenId, err := client.Request(userID,hash.CreateHashString(pass))
+		loginId, err := client.Request(userID,hash.CreateHashString(pass))
 		if err!=nil{
 			log.Println(err)
 			view.ReturnErrorResponse(
@@ -46,7 +47,8 @@ func SignUpHandler()gin.HandlerFunc{
 			)
 			return
 		}
-		c.JSON(http.StatusOK, view.ReturnSignUpResponse(tokenId,loginId))
+		token,err :=jwt.CreateToken(userID)
+		c.JSON(http.StatusOK, view.ReturnSignUpResponse(token,loginId))
 	}
 }
 

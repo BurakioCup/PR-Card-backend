@@ -1,7 +1,6 @@
 package dao
 
 import (
-	"PR-Card_backend/pkg/model/dto"
 	"github.com/google/uuid"
 	"log"
 )

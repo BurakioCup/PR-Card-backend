@@ -3,13 +3,13 @@ package view
 import "github.com/gin-gonic/gin"
 
 type SignUpResponse struct{
-	TokenId string `json:"tokenID"`
+	Token string `json:"token"`
 	LoginId string `json:"loginID"`
 }
 
-func ReturnSignUpResponse(c *gin.Context, tokenId string, uuid string)SignUpResponse{
+func ReturnSignUpResponse(token string, uuid string)SignUpResponse{
 	body :=SignUpResponse{
-		TokenId: tokenId,
+		Token: token,
 		LoginId: uuid,
 	}
 	return body
