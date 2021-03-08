@@ -36,7 +36,6 @@ func SignUpHandler()gin.HandlerFunc{
 		}
 		client := dao.MakeSignUpClient()
 		loginId, err := client.Request(userID,hash.CreateHashString(pass))
-		//loginId, err := client.Request(userID,pass)
 		if err!=nil{
 			log.Println(err)
 			view.ReturnErrorResponse(
