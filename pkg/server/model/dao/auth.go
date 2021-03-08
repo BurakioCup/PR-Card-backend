@@ -6,13 +6,13 @@ import (
 )
 
 const(
-	InsertUserInfoQuery="INSERT INTO users (id,passs,login_id) VALUES (?,?,?)"
+	InsertUserInfoQuery="INSERT INTO `users` (id,pass,login_id) VALUES (?,?,?)"
 )
 // sign/up
 type signUp struct {
 }
 
-func MakeSignUpClient ()signUp{
+func MakeSignUpClient () signUp {
 	return signUp{}
 }
 

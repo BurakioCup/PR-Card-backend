@@ -1,8 +1,8 @@
-package pkg
+package server
 
 import (
-	"PR-Card_backend/pkg/controller"
 	"PR-Card_backend/pkg/middleware"
+	"PR-Card_backend/pkg/server/controller"
 	"github.com/gin-gonic/gin"
 )
 

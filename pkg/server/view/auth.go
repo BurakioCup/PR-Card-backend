@@ -7,8 +7,8 @@ type SignUpResponse struct{
 	LoginId string `json:"loginID"`
 }
 
-func ReturnSignUpResponse(token string, uuid string)SignUpResponse{
-	body :=SignUpResponse{
+func ReturnSignUpResponse(token string, uuid string) SignUpResponse {
+	body := SignUpResponse{
 		Token: token,
 		LoginId: uuid,
 	}

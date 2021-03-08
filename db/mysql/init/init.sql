@@ -16,8 +16,8 @@ DROP TABLE IF EXISTS `owned_cards`;
 ---- create ----
 CREATE TABLE IF NOT EXISTS `pr_card`.`users` (
 `id` VARCHAR(64) NOT NULL COMMENT 'ユーザID',
-`pass` VARCHAR(64) NOT NULL COMMENT 'パスワード',
 `card_id` VARCHAR(64) COMMENT '名刺ID',
+`pass` VARCHAR(64) COMMENT 'パスワード',
 `login_id` VARCHAR(64) NOT NULL COMMENT '自動ログインID',
 PRIMARY KEY (`id`),
 INDEX `idx_auth_token` (`id` ASC)
