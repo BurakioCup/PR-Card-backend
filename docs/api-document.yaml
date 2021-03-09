@@ -2,7 +2,7 @@ openapi: 3.0.2
 info:
   title: PRcard API
   description: |-
-    <b>6種の北海チーズ牛丼 サーバサイド API仕様</b>
+    <b>6種の北海道チーズ牛丼 サーバサイド API仕様</b>
   version: 1.0.0
 servers:
   - url: http://localhost:8080/
@@ -13,6 +13,10 @@ tags:
     description: PRカード関連API
   - name: QR
     description: QRカード関連API
+  - name: Twitter
+    description: Twitter関連API
+  - name: Github
+    description: Github関連API
 
 paths:
   /auth:
@@ -57,7 +61,7 @@ paths:
       description: |-
         名前・サムネイル・自己紹介文・レーダーチャート用の項目と数値をパラメーターにして、名刺画像生成してを200を返却。
       security:
-        - ApiToken: []    
+        - ApiToken: []
       requestBody:
         description: Request Body
         content:
@@ -94,7 +98,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PRCardRequest'
+              $ref: '#/components/schemas/PRPutRequest'
         required: true
       responses:
         200:
@@ -138,7 +142,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'  
+                $ref: '#/components/schemas/ErrorResponse'
   '/card/{user_id}':
     get:
       tags:
@@ -197,7 +201,39 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse' 
+                $ref: '#/components/schemas/ErrorResponse'
+  /card/2:
+    post:
+      tags:
+        - PRCard
+      summary: PRカード情報入力API2
+      description: |-
+        PRカード作成に必要なデータをパラメータにして名刺画像を取得して200を返却。
+      security:
+        - ApiToken: []
+      requestBody:
+        description: Request Body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ItemsResponse'
+        required: true
+      responses:
+        200:
+          description: OK
+          content: {}
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
   /qr:
     get:
       tags:
@@ -225,7 +261,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-    
+
 components:
   schemas:
     AuthCreateRequest:
@@ -252,8 +288,8 @@ components:
       required:
         - token
     PRCardRequest:
-       type: object
-       properties:
+      type: object
+      properties:
         name:
           type: string
           description: 名前
@@ -262,44 +298,44 @@ components:
           type: string
           description: アイコン
           example: "ljkfalkjflkjaflsekjfldjlkj"
-        description:
-          type: string
-          description: 自己紹介
-          example: "はいどーもにじさんじ所属"
-        items: 
+        items:
           type: object
           description: レーダーチャート用のデータ
           $ref: '#/components/schemas/ItemsResponse'
     ItemsResponse:
-        type: object
-        properties: 
-         items1:
+      type: object
+      properties:
+        items1:
           type: integer
           example: 100
-         items2:
+        items2:
           type: integer
           example: 100
-         items3:
+        items3:
           type: integer
           example: 100
-         items4: 
+        items4:
           type: integer
           example: 100
-         items5:
+        items5:
           type: integer
           example: 100
     PRCardResponse:
-       properties:
+      properties:
         prcard:
           type: string
           description: PRカード
-          example: "kjkaiojdiosgjoakojkg"  
+          example: "kjkaiojdiosgjoakojkg"
     SkillListResponse:
-          type: array
-          items:
-            $ref: '#/components/schemas/PRCardResponse'
+      type: array
+      items:
+        $ref: '#/components/schemas/PRCardResponse'
+    PRPutRequest:
+      type: array
+      items:
+        $ref: '#/components/schemas/ItemsResponse'
     QRRespnse:
-       properties:
+      properties:
         qr:
           type: string
           description: qrコード
