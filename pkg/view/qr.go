@@ -4,7 +4,7 @@ import "github.com/gin-gonic/gin"
 
 type ReadQRResponse struct{
 //	TODO json
-cardImage string `json:""`
+cardImage string `json:"qrImage"`
 }
 
 func ReturnReadQRResponse(imagePath string) ReadQRResponse {
