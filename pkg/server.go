@@ -28,5 +28,5 @@ func init() {
 	//自分の変更後の名刺を登録
 	Server.PUT("/update/card", middleware.Authenticate(controller.UpdateCard()))
 	//名刺を表示するためのQRのリンクを送信
-	Server.GET("/read/qr", middleware.Authenticate(controller.ReadQR()))
+	Server.GET("/read/qr", middleware.Authenticate(controller.ReadQRHandler()))
 }
