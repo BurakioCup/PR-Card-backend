@@ -2,7 +2,6 @@ package controller
 
 import (
 	"PR-Card_backend/pkg/hash"
-	"PR-Card_backend/pkg/jwt"
 	"PR-Card_backend/pkg/server/model/dao"
 	"PR-Card_backend/pkg/server/view"
 	"github.com/gin-gonic/gin"
@@ -46,8 +45,8 @@ func SignUpHandler()gin.HandlerFunc{
 			)
 			return
 		}
-		token,err :=jwt.CreateToken(userID)
-		c.JSON(http.StatusOK, view.ReturnSignUpResponse(token,loginId))
+		//token,err :=jwt.CreateToken(userID)
+		c.JSON(http.StatusOK, view.ReturnSignUpResponse(userID,loginId))
 	}
 }
 

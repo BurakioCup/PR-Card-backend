@@ -31,3 +31,5 @@ func CreateToken(userId string) (string, error) {
 
 	return tokenString, nil
 }
+
+//TODO implemnts jwt Authentication
