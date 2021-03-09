@@ -27,12 +27,7 @@ paths:
       description: |-
         ユーザの認証情報を作成します。
         ユーザの情報をリクエストで受け取り、サーバ内だけで利用するIDと認証用のトークンを生成しデータベースへ保存します。
-      requestBody:
-        description: Request Body
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SignUpRequest'
+        リクエストヘッダーで`userID`と`pass`を取得します
         required: true
       responses:
         200:
@@ -81,13 +76,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-  /read/cards:
+  /read/all:
     get:
       tags:
         - PRCard
       summary: PRカード一覧取得API
       description: |-
         リクエストヘッダの`token`を取得しユーザがもつ名刺の一覧を返却する
+      security:
+        - ApiToken: []
       responses:
         200:
           description: OK
@@ -107,14 +104,17 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-  /read/card:
+  /read/{cardID}:
     get:
       tags:
         - PRCard
       summary: PRカード詳細情報取得API
       description: |-
         リクエストヘッダの`token`を取得しユーザを認証
-        リクエストヘッダの`cardID`を取得しカードの詳細を返却
+      security:
+        - ApiToken: []
+      parameters:
+        - $ref: '#/components/parameters/cardID'
       responses:
         200:
           description: OK
@@ -134,11 +134,39 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+  /read/myCard:
+    get:
+      tags:
+        - PRCard
+      summary: 自分の名刺を取得
+      description: |-
+        リクエストヘッダの`token`を取得しユーザを認証
+      security:
+        - ApiToken: []
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadMyCardResponse'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
   /create/card/overview:
     post:
       tags:
         - PRCard
-      summary: PRカード情報の登録API(名前、顔写真)
+      summary: PRカード情報の登録API(名前、顔写真、グラフのデータ)
       description: |-
         名前・顔写真URLをパラメーターとして受け取り保存する。
       security:
@@ -169,7 +197,7 @@ paths:
     post:
       tags:
         - PRCard
-      summary: PRカードの情報の登録API(グラフのデータ、自分を表す言葉、自由記述欄)
+      summary: PRカードの情報の登録API(ニックネーム、自分を表す言葉、自由記述欄)
       description: |-
         グラフのデータ、自分を表す言葉、自由記述欄を受け取りDBに保管します。
       security:
@@ -315,8 +343,8 @@ components:
     CreateCardDetailsRequest:
       type: object
       properties:
-        cards:
-          $ref: '#/components/schemas/ItemResponse'
+        Nickname:
+          type: string
         words:
           $ref: '#/components/schemas/WordResponse'
         freeText:
@@ -343,8 +371,13 @@ components:
     ReadCardResponse:
       type: object
       properties:
-        cards:
-          $ref: '#/components/schemas/ItemResponse'
+        Nickname:
+          type: string
+          example: "nishikawa"
+        statusImage:
+          type: string
+          description: ユーザのステータス
+          example: "http://hogehoge"
         words:
           $ref: '#/components/schemas/WordResponse'
         freeText:
@@ -353,7 +386,7 @@ components:
     ItemsResponse:
       type: object
       properties:
-        cards:
+        status:
           $ref: '#/components/schemas/ItemResponse'
         words:
           $ref: '#/components/schemas/WordResponse'
@@ -398,6 +431,28 @@ components:
           type: string
           description: PRカード
           example: "kjkaiojdiosgjoakojkg"
+    ReadMyCardResponse:
+      properties:
+        userName:
+          type: string
+          description: ユーザの名前
+        faceImage:
+          type: string
+          description: 顔写真のパス
+          example: "http://hogehoge"
+        Nickname:
+          type: string
+          description: ユーザのあだ名
+          example: "nishikawa"
+        statusImage:
+          type: string
+          description: ユーザのステータス
+          example: "http://hogehoge"
+        words:
+          $ref: '#/components/schemas/WordResponse'
+        freeText:
+          type: string
+          example: "はじめまして、、、、、、、、、"
     SkillListResponse:
       type: array
       items:
@@ -410,6 +465,8 @@ components:
         faceImage:
           type: string
           description: 顔写真のパス
+        status:
+          $ref: '#/components/schemas/ItemResponse'
     ReadQRRespnse:
       properties:
         qrImage:
@@ -439,13 +496,27 @@ components:
         - message
         - discription
   parameters:
-    UserID:
-      name: user_id
-      in: path
+    userID:
+      name: userID
+      in: header
       required: true
       description: userID
       schema:
-        type: integer
+        type: string
+    pass:
+      name: pass
+      in: path
+      required: true
+      description: pass
+      schema:
+        type: string
+    cardID:
+      name: cardID
+      in: path
+      required: true
+      description: cardID
+      schema:
+        type: string
   securitySchemes:
     ApiToken:
       type: apiKey
