@@ -18,7 +18,7 @@ func MakeSignUpClient () signUp {
 }
 
 func (info *signUp)Request(userID,pass string)(string,error){
-	tokenId, err := uuid.NewRandom()
+	loginID, err := uuid.NewRandom()
 	if err != nil {
 		log.Println("tokenID generate is failed")
 	}
@@ -27,6 +27,6 @@ func (info *signUp)Request(userID,pass string)(string,error){
 		return "",err
 	}
 	fmt.Println(pass)
-	_, err = stmt.Exec(userID, pass, tokenId)
-	return tokenId.String(),err
+	_, err = stmt.Exec(userID, pass, loginID)
+	return loginID.String(),err
 }

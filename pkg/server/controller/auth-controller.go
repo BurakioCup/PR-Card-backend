@@ -11,7 +11,7 @@ import (
 
 func SignUpHandler()gin.HandlerFunc{
 	return func(c *gin.Context) {
-		userID := c.GetHeader("userId")
+		userID := c.GetHeader("userID")
 		if userID==""{
 			log.Println("[ERROR] userID is empty")
 			view.ReturnErrorResponse(
@@ -34,7 +34,7 @@ func SignUpHandler()gin.HandlerFunc{
 			return
 		}
 		client := dao.MakeSignUpClient()
-		loginId, err := client.Request(userID,hash.CreateHashString(pass))
+		loginID, err := client.Request(userID,hash.CreateHashString(pass))
 		if err!=nil{
 			log.Println(err)
 			view.ReturnErrorResponse(
@@ -46,7 +46,7 @@ func SignUpHandler()gin.HandlerFunc{
 			return
 		}
 		//token,err :=jwt.CreateToken(userID)
-		c.JSON(http.StatusOK, view.ReturnSignUpResponse(userID,loginId))
+		c.JSON(http.StatusOK, view.ReturnSignUpResponse(userID,loginID))
 	}
 }
 
