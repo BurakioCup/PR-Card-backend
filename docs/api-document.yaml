@@ -118,10 +118,10 @@ paths:
       responses:
         200:
           description: OK
-            # content:
-            # application/json:
-            #   schema:
-          #     $ref: '#/components/schemas/'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadCardResponse'
         400:
           description: Bad Request
           content:
@@ -179,7 +179,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ItemsResponse'
+              $ref: '#/components/schemas/CreateCardDetailsRequest'
         required: true
       responses:
         200:
@@ -312,39 +312,91 @@ components:
           type: object
           description: レーダーチャート用のデータ
           $ref: '#/components/schemas/ItemsResponse'
-    ReadCardsResponse:
-      properties:
-        cardIDs:
-          $ref: '#/components/schemas/PRCardsResponse'
-    ItemsResponse:
+    CreateCardDetailsRequest:
       type: object
       properties:
-        items1:
-          type: integer
-          example: 100
-        items2:
-          type: integer
-          example: 100
-        items3:
-          type: integer
-          example: 100
-        items4:
-          type: integer
-          example: 100
-        items5:
-          type: integer
-          example: 100
-    PRCardResponse:
-      properties:
-        prcard:
+        cards:
+          $ref: '#/components/schemas/ItemResponse'
+        words:
+          $ref: '#/components/schemas/WordResponse'
+        freeText:
           type: string
-          description: PRカード
-          example: "kjkaiojdiosgjoakojkg"
+          example: "はじめまして、、、、、、、、、"
+    ReadCardsResponse:
+      properties:
+        cards:
+          $ref: '#/components/schemas/PRCardsResponse'
     PRCardsResponse:
       properties:
         cardID:
           type: string
           description: PRカードID
+          example: "kjkaiojdiosgjoakojkg"
+        userName:
+          type: string
+          description: 名前
+          example: "西川"
+        faceImage:
+          type: string
+          description: 顔写真
+          example: "http://hogehoge"
+    ReadCardResponse:
+      type: object
+      properties:
+        cards:
+          $ref: '#/components/schemas/ItemResponse'
+        words:
+          $ref: '#/components/schemas/WordResponse'
+        freeText:
+          type: string
+          example: "はじめまして、、、、、、、、、"
+    ItemsResponse:
+      type: object
+      properties:
+        cards:
+          $ref: '#/components/schemas/ItemResponse'
+        words:
+          $ref: '#/components/schemas/WordResponse'
+        freeText:
+          type: string
+          example: "はじめまして、、、、、、、、、"
+      # properties:
+      #   items1:
+      #     type: integer
+      #     example: 100
+      #   items2:
+      #     type: integer
+      #     example: 100
+      #   items3:
+      #     type: integer
+      #     example: 100
+      #   items4:
+      #     type: integer
+      #     example: 100
+      #   items5:
+      #     type: integer
+      #     example: 100
+    WordResponse:
+      # 自分を表す言葉
+      type: object
+      properties:
+        word:
+          type: string
+          example: "真面目"
+    ItemResponse:
+      type: object
+      properties:
+        itemName:
+          type: string
+          example: "趣味"
+        itemScore:
+          type: integer
+          example: 30
+    PRCardResponse:
+      properties:
+        prcard:
+          type: string
+          description: PRカード
           example: "kjkaiojdiosgjoakojkg"
     SkillListResponse:
       type: array
@@ -352,18 +404,24 @@ components:
         $ref: '#/components/schemas/PRCardResponse'
     CreateCardOverviewRequest:
       properties:
-        name:
+        userName:
           type: string
           description: ユーザの名前
-        imagePath:
+        faceImage:
           type: string
           description: 顔写真のパス
     ReadQRRespnse:
       properties:
-        qrPath:
+        qrImage:
           type: string
           description: qrコードURL
           example: "http://hogehoge"
+    # CreateCardDeatailsResponse:
+    #   properties:
+    #     qrImage:
+    #       type: string
+    #       description: qrコードURL
+    #       example: "http://hogehoge"
     ErrorResponse:
       type: object
       properties:
