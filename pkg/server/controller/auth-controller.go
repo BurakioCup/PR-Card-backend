@@ -1,8 +1,8 @@
 package controller
 
 import (
-	"PR-Card_backend/pkg/model/dao"
-	"PR-Card_backend/pkg/view"
+	"PR-Card_backend/pkg/server/model/dao"
+	"PR-Card_backend/pkg/server/view"
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"

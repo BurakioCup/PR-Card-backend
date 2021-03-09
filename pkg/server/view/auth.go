@@ -6,7 +6,7 @@ type SignInResponse struct{
 	LoginId string `json:"loginID"`
 }
 
-func ReturnSignInResponse(loginID string)SignInResponse{
+func ReturnSignInResponse(loginID string) SignInResponse {
 	body := SignInResponse{
 		LoginId: loginID,
 	}
