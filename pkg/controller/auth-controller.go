@@ -5,14 +5,14 @@ import (
 	"net/http"
 )
 
-func CreateAuthHandler()gin.HandlerFunc{
+func SignUpHandler()gin.HandlerFunc{
 	return func(c *gin.Context) {
 
 		c.JSON(http.StatusOK, "")
 	}
 }
 
-func SigninHandler()gin.HandlerFunc{
+func SignInHandler()gin.HandlerFunc{
 	return func(c *gin.Context) {
 
 		c.JSON(http.StatusOK, "")

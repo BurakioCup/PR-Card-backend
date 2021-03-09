@@ -2,8 +2,8 @@ package main
 
 import (
 	"PR-Card_backend/configs"
-	"PR-Card_backend/pkg"
 	"PR-Card_backend/pkg/model/dao"
+	"PR-Card_backend/pkg/server"
 	"log"
 )
 
@@ -16,5 +16,5 @@ func main() {
 
 	//サーバを起動
 	addr := configs.GetServerPort()
-	pkg.Server.Run(addr)
+	server.Server.Run(addr)
 }
