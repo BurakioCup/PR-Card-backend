@@ -2,11 +2,14 @@ package dao
 
 import (
 	"PR-Card_backend/pkg/server/model/dto"
+	"database/sql"
+	"errors"
+	"log"
 )
 
 const(
-	readAllCardsID = "SELECT `card_id` FROM `owned_cards` WHERE `user_id`=? "
-	readAllCards = "SELECT * FROM `cards` WHERE ;"
+	readAllCardsID = "SELECT `card_id` FROM `owned_cards` WHERE `user_id` = ? "
+	readAllCards = "SELECT `name`,`image_path` FROM `cards` WHERE `id` = ? ;"
 )
 
 var (
@@ -18,7 +21,7 @@ var (
 type raedAll struct {
 }
 
-func MakeReadQRClient () raedAll {
+func MakeReadAllClient () raedAll {
 	return raedAll{}
 }
 
@@ -27,11 +30,11 @@ func (info *raedAll)Request(userID string)([]dto.Card,error){
 	if err !=nil {
 		return nil, err
 	}
-
+	err = getCards()
 	return Cards, nil
 }
 
-func getListCardIDs(userID string)(error){
+func getListCardIDs(userID string)error{
 	rows, err := Conn.Query(readAllCardsID, userID)
 	if err != nil {
 		return err
@@ -47,4 +50,18 @@ func getListCardIDs(userID string)(error){
 		Cards = append(Cards, *Card)
 	}
 	return err
+}
+
+func getCards()error{
+	for i:=0; i<len(Cards); i++{
+		row := Conn.QueryRow(readAllCards, Cards[i].CardID)
+		if err := row.Scan(&Cards[i].UserName,&Cards[i].FaceImage); err != nil {
+			if err == sql.ErrNoRows {
+				return errors.New("Faild get cards info")
+			}
+			log.Println(err)
+			return err
+		}
+	}
+	return nil
 }

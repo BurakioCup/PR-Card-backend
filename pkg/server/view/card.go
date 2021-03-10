@@ -1,20 +1,16 @@
 package view
 
-import "github.com/gin-gonic/gin"
+import (
+	"PR-Card_backend/pkg/server/model/dto"
+	"github.com/gin-gonic/gin"
+)
 
-type card struct{
-	CardID string `json:"cardID"`
-	UserName string `json:"userName"`
-	FaceImage string `json:"faceImage"`
-}
 type ReadAllResponse struct{
-	Cards []card `json:"cards"`
+	Cards *[]dto.Card `json:"cards"`
 }
 
-func ReturnReadAllResponse(cardID,userName,faceImage string) ReadAllResponse {
-	body := ReadAllResponse{
-	}
-	return body
+func ReturnReadAllResponse(cards *[]dto.Card) ReadAllResponse {
+	return ReadAllResponse{Cards: cards}
 }
 
 type Error struct {

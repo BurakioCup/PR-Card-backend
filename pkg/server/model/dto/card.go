@@ -11,11 +11,6 @@ type Card struct {
 	FaceImage string
 }
 
-type Cards struct {
-	Cards []Card
-}
-
-
 func ConvertToCard(row *sql.Rows)(*Card, error){
 	var card Card
 	if err := row.Scan(&card.CardID,&card.UserName,&card.FaceImage); err != nil {

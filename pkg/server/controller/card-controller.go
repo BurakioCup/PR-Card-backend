@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"PR-Card_backend/pkg/server/model/dao"
 	"PR-Card_backend/pkg/server/view"
 	"github.com/gin-gonic/gin"
 	"log"
@@ -28,7 +29,7 @@ func ReadAllHandler()gin.HandlerFunc{
 			return
 		}
 		client := dao.MakeReadAllClient()
-		cardPath,err := client.Request(userID)
+		cards,err := client.Request(userID)
 		if err!=nil{
 			log.Println(err)
 			view.ReturnErrorResponse(
@@ -40,9 +41,7 @@ func ReadAllHandler()gin.HandlerFunc{
 			return
 		}
 
-		c.JSON(http.StatusOK, view.ReadAllResponse{
-
-		})
+		c.JSON(http.StatusOK, view.ReturnReadAllResponse(&cards))
 	}
 }
 
