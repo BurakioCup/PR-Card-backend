@@ -10,7 +10,7 @@ import (
 
 func ReadQRHandler()gin.HandlerFunc{
 	return func(c *gin.Context) {
-		userID := c.GetHeader("userID")
+		userID := c.GetString("userID")
 		if userID==""{
 			log.Println("[ERROR] userID is empty")
 			view.ReturnErrorResponse(
