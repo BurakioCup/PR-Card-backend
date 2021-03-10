@@ -1,8 +1,8 @@
-package pkg
+package server
 
 import (
-	"PR-Card_backend/pkg/controller"
 	"PR-Card_backend/pkg/middleware"
+	"PR-Card_backend/pkg/server/controller"
 	"github.com/gin-gonic/gin"
 )
 
@@ -18,7 +18,7 @@ func init() {
 	//アカウント認証
 	Server.GET("/sign/in", controller.SigninHandler())
 	//ユーザが持っている名刺一覧
-	Server.GET("/read/cards", middleware.Authenticate(controller.ReadCardsHandler()))
+	Server.GET("/read/all", middleware.Authenticate(controller.ReadAllHandler()))
 	//一覧から一つの名刺を詳細表示
 	Server.GET("/read/card", middleware.Authenticate(controller.ReadCardHandler()))
 	//自分の名刺を編集するために最初の状態を送信
