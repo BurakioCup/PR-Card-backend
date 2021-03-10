@@ -64,3 +64,16 @@ INDEX `idx_auth_token` (`id` ASC)
 )
 ENGINE = InnoDB
 COMMENT = 'どのユーザがどの名刺をもつか保存';
+
+---- insert ----
+INSERT INTO `owned_cards` VALUES ("1","a","b");
+INSERT INTO `owned_cards` VALUES ("1","a","c");
+INSERT INTO `owned_cards` VALUES ("1","a","d");
+INSERT INTO `owned_cards` VALUES ("1","a","e");
+INSERT INTO `owned_cards` VALUES ("1","a","f");
+INSERT INTO `owned_cards` VALUES ("1","b","a");
+INSERT INTO `owned_cards` VALUES ("1","b","c");
+INSERT INTO `owned_cards` VALUES ("1","b","d");
+INSERT INTO `owned_cards` VALUES ("1","b","e");
+INSERT INTO `owned_cards` VALUES ("1","b","f");
+INSERT INTO `owned_cards` VALUES ("1","a","g");

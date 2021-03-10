@@ -4,6 +4,7 @@ import (
 	"PR-Card_backend/pkg/server/model/dto"
 	"database/sql"
 	"errors"
+	"fmt"
 	"log"
 )
 
@@ -55,6 +56,7 @@ func getListCardIDs(userID string)error{
 func getCards()error{
 	for i:=0; i<len(Cards); i++{
 		row := Conn.QueryRow(readAllCards, Cards[i].CardID)
+		fmt.Println("aa")
 		if err := row.Scan(&Cards[i].UserName,&Cards[i].FaceImage); err != nil {
 			if err == sql.ErrNoRows {
 				return errors.New("Faild get cards info")

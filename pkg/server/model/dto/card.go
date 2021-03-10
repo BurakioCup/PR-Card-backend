@@ -13,7 +13,7 @@ type Card struct {
 
 func ConvertToCard(row *sql.Rows)(*Card, error){
 	var card Card
-	if err := row.Scan(&card.CardID,&card.UserName,&card.FaceImage); err != nil {
+	if err := row.Scan(&card.CardID); err != nil {
 		if err == sql.ErrNoRows {
 			return nil, nil
 		}
