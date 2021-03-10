@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"PR-Card_backend/pkg/view"
+	"PR-Card_backend/pkg/server/view"
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
