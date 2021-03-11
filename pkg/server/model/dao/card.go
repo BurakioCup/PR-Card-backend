@@ -15,7 +15,7 @@ const(
 type readMyCard struct{
 }
 
-func makeReadMyCardClient()readMyCard{
+func MakeReadMyCardClient()readMyCard{
 	return readMyCard{}
 }
 

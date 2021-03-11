@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"PR-Card_backend/pkg/server/model/dao"
 	"PR-Card_backend/pkg/server/view"
 	"github.com/gin-gonic/gin"
 	"log"
@@ -20,6 +21,8 @@ func ReadMyCardHandler()gin.HandlerFunc{
 			)
 			return
 		}
+		client := dao.MakeReadMyCardClient()
+		client.Request(userID)
 		c.JSON(http.StatusOK, "")
 	}
 }

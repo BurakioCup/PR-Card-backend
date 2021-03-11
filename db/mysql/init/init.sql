@@ -27,8 +27,9 @@ COMMENT = 'アカウント情報を保存';
 CREATE TABLE IF NOT EXISTS `pr_card`.`cards` (
 `id` VARCHAR(64) NOT NULL COMMENT 'カード識別ID',
 `name` VARCHAR(32) NOT NULL COMMENT 'ユーザ名',
-`image_path` VARCHAR(64) COMMENT '画像のパス',
-`free_text` TEXT COMMENT '画像のパス',
+`face_image` VARCHAR(64) COMMENT '顔画像のパス',
+`status_image` VARCHAR(64) COMMENT 'ステータス画像のパス',
+`free_text` TEXT COMMENT '自由記述欄',
 PRIMARY KEY (`id`),
 INDEX `idx_auth_token` (`id` ASC)
 )
