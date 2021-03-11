@@ -22,7 +22,8 @@ func ReadMyCardHandler()gin.HandlerFunc{
 			return
 		}
 		client := dao.MakeReadMyCardClient()
-		client.Request(userID)
+		myCard,err := client.Request(userID)
+
 		c.JSON(http.StatusOK, "")
 	}
 }
