@@ -37,5 +37,5 @@ func (info *readMyCard)Request(userID string)(dto.MyCard,error){
 }
 
 func getMyCardInfo(cardID string){
-
+	row := Conn.QueryRow(SelectMyCard, cardID)
 }
