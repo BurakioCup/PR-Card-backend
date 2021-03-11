@@ -1,13 +1,25 @@
 package controller
 
 import (
+	"PR-Card_backend/pkg/server/view"
 	"github.com/gin-gonic/gin"
+	"log"
 	"net/http"
 )
 
-func ReadCardHandler()gin.HandlerFunc{
+func ReadMyCardHandler()gin.HandlerFunc{
 	return func(c *gin.Context) {
-
+		userID := c.GetString("userID")
+		if userID==""{
+			log.Println("[ERROR] userID is empty")
+			view.ReturnErrorResponse(
+				c,
+				http.StatusInternalServerError,
+				"InternalServerError",
+				"userID is empty",
+			)
+			return
+		}
 		c.JSON(http.StatusOK, "")
 	}
 }
