@@ -24,12 +24,12 @@ func SignUpHandler()gin.HandlerFunc{
 		}
 		pass := c.GetHeader("pass")
 		if pass==""{
-			log.Println("[ERROR] userID is empty")
+			log.Println("[ERROR] pass is empty")
 			view.ReturnErrorResponse(
 				c,
 				http.StatusBadRequest,
 				"Bad Request",
-				"UserID is empty",
+				"pass is empty",
 			)
 			return
 		}
@@ -50,9 +50,31 @@ func SignUpHandler()gin.HandlerFunc{
 	}
 }
 
-func SigninHandler()gin.HandlerFunc{
+func SignInHandler()gin.HandlerFunc {
 	return func(c *gin.Context) {
-
-		c.JSON(http.StatusOK, "")
+		loginID := c.GetHeader("loginId")
+		if loginID == "" {
+			log.Println("[ERROR] loginID is empty")
+			view.ReturnErrorResponse(
+				c,
+				http.StatusBadRequest,
+				"Bad Request",
+				"loginID is empty",
+			)
+			return
+		}
+		client := dao.MakeSignInClient()
+		loginID, err := client.Request(loginID)
+		if err != nil {
+			log.Println(err)
+			view.ReturnErrorResponse(
+				c,
+				http.StatusInternalServerError,
+				"Internal Server Error",
+				"Failed to update loginID",
+			)
+			return
+		}
+		c.JSON(http.StatusOK, view.ReturnSignInResponse(loginID))
 	}
 }
