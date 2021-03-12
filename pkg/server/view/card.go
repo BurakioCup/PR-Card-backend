@@ -19,17 +19,10 @@ func ReturnReadCard(card dto.MyCard)ReadCardResponse{
 		StatusImage: card.StatusImage,Words: card.Words,FreeText: card.FreeText}
 }
 
-type Error struct {
-	Code		int		`json:"code"`
-	Message		string	`json:"message"`
-	Description	string	`json:"description"`
+type ReadAllResponse struct{
+	Cards *[]dto.Card `json:"cards"`
 }
 
-func ReturnErrorResponse(c *gin.Context, code int, msg, desc string) {
-	body := Error{
-		Code: code,
-		Message: msg,
-		Description: desc,
-	}
-	c.JSON(code, body)
+func ReturnReadAllResponse(cards *[]dto.Card) ReadAllResponse {
+	return ReadAllResponse{Cards: cards}
 }
