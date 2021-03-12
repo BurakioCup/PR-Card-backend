@@ -2,7 +2,6 @@ package view
 
 import (
 	"PR-Card_backend/pkg/server/model/dto"
-	"github.com/gin-gonic/gin"
 )
 
 type ReadCardResponse struct{
