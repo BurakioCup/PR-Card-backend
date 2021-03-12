@@ -5,10 +5,10 @@ type MyCard struct{
 	FaceImage string
 	NickName string
 	StatusImage string
-	Words []Word
+	Words Words
 	FreeText string
 }
 
-type Word struct{
-	word string
+type Words struct{
+	Word [4]string
 }

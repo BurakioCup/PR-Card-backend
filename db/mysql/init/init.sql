@@ -66,3 +66,22 @@ INDEX `idx_auth_token` (`id` ASC)
 )
 ENGINE = InnoDB
 COMMENT = 'どのユーザがどの名刺をもつか保存';
+
+-- insert --
+INSERT INTO `users` VALUES ("a","a","uuid");
+INSERT INTO `cards` VALUES ("a","token","takashi","https://","https://","こんにちわ、西川です。");
+INSERT INTO `cards` VALUES ("b","a","taketo","https://","https://","こんにちわ、若松です。");
+INSERT INTO `cards` VALUES ("c","b","osaki","https://","https://","こんにちわ、大崎です。");
+
+INSERT INTO `card_my_word` VALUES ("1","a","sample1");
+INSERT INTO `card_my_word` VALUES ("2","a","sample2");
+INSERT INTO `card_my_word` VALUES ("3","a","sample3");
+INSERT INTO `card_my_word` VALUES ("4","a","sample4");
+INSERT INTO `card_my_word` VALUES ("5","b","sample1");
+INSERT INTO `card_my_word` VALUES ("6","b","sample2");
+INSERT INTO `card_my_word` VALUES ("7","b","sample3");
+INSERT INTO `card_my_word` VALUES ("8","b","sample4");
+INSERT INTO `card_my_word` VALUES ("9","c","sample1");
+INSERT INTO `card_my_word` VALUES ("10","c","sample2");
+INSERT INTO `card_my_word` VALUES ("11","c","sample3");
+INSERT INTO `card_my_word` VALUES ("12","c","sample4");

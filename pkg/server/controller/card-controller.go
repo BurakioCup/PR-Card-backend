@@ -23,8 +23,17 @@ func ReadMyCardHandler()gin.HandlerFunc{
 		}
 		client := dao.MakeReadMyCardClient()
 		myCard,err := client.Request(userID)
-
-		c.JSON(http.StatusOK, "")
+		if err!=nil{
+			log.Println(err)
+			view.ReturnErrorResponse(
+				c,
+				http.StatusInternalServerError,
+				"Internal Server Error",
+				"Failed to get MyCard info",
+			)
+			return
+		}
+		c.JSON(http.StatusOK, view.ReturnReadMyCardResponse(myCard))
 	}
 }
 

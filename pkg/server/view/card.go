@@ -1,6 +1,17 @@
 package view
 
-import "github.com/gin-gonic/gin"
+import (
+	"PR-Card_backend/pkg/server/model/dto"
+	"github.com/gin-gonic/gin"
+)
+
+type ReadMyCardResponse struct{
+	MyCard dto.MyCard
+}
+
+func ReturnReadMyCardResponse(myCard dto.MyCard)ReadMyCardResponse{
+	return ReadMyCardResponse{MyCard: myCard}
+}
 
 type Error struct {
 	Code		int		`json:"code"`

@@ -20,9 +20,9 @@ func init() {
 	//ユーザが持っている名刺一覧
 	Server.GET("/read/cards", middleware.Authenticate(controller.ReadCardsHandler()))
 	//一覧から一つの名刺を詳細表示
-	Server.GET("/read/myCard", middleware.Authenticate(controller.ReadMyCardHandler()))
+	Server.GET("/read/card", middleware.Authenticate(controller.ReadMyCardHandler()))
 	//自分の名刺を編集するために最初の状態を送信
-	Server.GET("/read/mycard", middleware.Authenticate(controller.ReadMycardHandler()))
+	Server.GET("/read/myCard", middleware.Authenticate(controller.ReadMyCardHandler()))
 	//自分の変更後の名刺を登録
 	Server.POST("/create/card", middleware.Authenticate(controller.CreateCard()))
 	//自分の変更後の名刺を登録
