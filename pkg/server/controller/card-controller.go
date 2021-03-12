@@ -10,7 +10,10 @@ import (
 
 func ReadCardIDHandler()gin.HandlerFunc{
 	return func(c *gin.Context) {
+		//TODO 下記２行を決定
 		cardID := c.Param("cardID")
+		cardID=c.Query("cardID")
+		//fmt.Println(a)
 		if cardID==""{
 			log.Println("[ERROR] cardID is empty")
 			view.ReturnErrorResponse(
