@@ -1,8 +1,8 @@
-package pkg
+package server
 
 import (
-	"PR-Card_backend/pkg/controller"
 	"PR-Card_backend/pkg/middleware"
+	"PR-Card_backend/pkg/server/controller"
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,7 +14,7 @@ var (
 func init() {
 	Server = gin.Default()
 	//アカウント作成
-	Server.POST("/create/auth", controller.CreateAuthHandler())
+	Server.POST("/sign/up", controller.SignUpHandler())
 	//アカウント認証
 	Server.GET("/sign/in", controller.SigninHandler())
 	//ユーザが持っている名刺一覧
