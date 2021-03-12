@@ -36,4 +36,12 @@ func ReturnErrorResponse(c *gin.Context, code int, msg, desc string) {
 		Description: desc,
 	}
 	c.JSON(code, body)
+)
+
+type ReadAllResponse struct{
+	Cards *[]dto.Card `json:"cards"`
+}
+
+func ReturnReadAllResponse(cards *[]dto.Card) ReadAllResponse {
+	return ReadAllResponse{Cards: cards}
 }

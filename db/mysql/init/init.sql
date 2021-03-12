@@ -68,6 +68,14 @@ INDEX `idx_auth_token` (`id` ASC)
 ENGINE = InnoDB
 COMMENT = 'どのユーザがどの名刺をもつか保存';
 
+CREATE TABLE IF NOT EXISTS `pr_card`.`card_qrs` (
+`card_id` VARCHAR(32) NOT NULL COMMENT 'カード識別ID',
+`card_image` VARCHAR(64) NOT NULL COMMENT 'qrコードURL',
+INDEX `idx_auth_token` (`card_id` ASC)
+)
+ENGINE = InnoDB
+COMMENT = 'カードのQRコードののURLを保存';
+
 -- insert --
 INSERT INTO `users` VALUES ("a","a","uuid");
 INSERT INTO `cards` VALUES ("a","token","takashi","https://","https://","こんにちわ、西川です。");
@@ -86,3 +94,17 @@ INSERT INTO `card_my_word` VALUES ("9","c","sample1");
 INSERT INTO `card_my_word` VALUES ("10","c","sample2");
 INSERT INTO `card_my_word` VALUES ("11","c","sample3");
 INSERT INTO `card_my_word` VALUES ("12","c","sample4");
+
+INSERT INTO `owned_cards` VALUES ("1","a","b");
+INSERT INTO `owned_cards` VALUES ("1","a","c");
+INSERT INTO `owned_cards` VALUES ("1","a","d");
+INSERT INTO `owned_cards` VALUES ("1","a","e");
+INSERT INTO `owned_cards` VALUES ("1","a","f");
+INSERT INTO `owned_cards` VALUES ("1","b","a");
+INSERT INTO `owned_cards` VALUES ("1","b","c");
+INSERT INTO `owned_cards` VALUES ("1","b","d");
+INSERT INTO `owned_cards` VALUES ("1","b","e");
+INSERT INTO `owned_cards` VALUES ("1","b","f");
+INSERT INTO `owned_cards` VALUES ("1","a","g");
+
+insert into `card_qrs` values ("a","https://qrコードだよー");
