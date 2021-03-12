@@ -1,7 +1,10 @@
 package controller
 
 import (
+	"PR-Card_backend/pkg/server/model/dao"
+	"PR-Card_backend/pkg/server/view"
 	"github.com/gin-gonic/gin"
+	"log"
 	"net/http"
 )
 
@@ -12,10 +15,32 @@ func ReadCardHandler()gin.HandlerFunc{
 	}
 }
 
-func ReadCardsHandler()gin.HandlerFunc{
+func ReadAllHandler()gin.HandlerFunc{
 	return func(c *gin.Context) {
-
-		c.JSON(http.StatusOK, "")
+		userID := c.GetString("userID")
+		if userID==""{
+			log.Println("[ERROR] userID is empty")
+			view.ReturnErrorResponse(
+				c,
+				http.StatusInternalServerError,
+				"InternalServerError",
+				"userID is empty",
+			)
+			return
+		}
+		client := dao.MakeReadAllClient()
+		cards,err := client.Request(userID)
+		if err!=nil{
+			log.Println(err)
+			view.ReturnErrorResponse(
+				c,
+				http.StatusInternalServerError,
+				"Internal Server Error",
+				"Failed to select card",
+			)
+			return
+		}
+		c.JSON(http.StatusOK, view.ReturnReadAllResponse(&cards))
 	}
 }
 
