@@ -6,9 +6,9 @@ import (
 )
 
 type Card struct {
-	CardID string
-	UserName string
-	FaceImage string
+	CardID string `json:"cardID"`
+	UserName string `json:"userName"`
+	FaceImage string `json:"faceImage"`
 }
 
 func ConvertToCard(row *sql.Rows)(*Card, error){
