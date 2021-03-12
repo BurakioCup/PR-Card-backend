@@ -10,7 +10,7 @@ type ReadMyCardResponse struct{
 	FaceImage string `json:"faceImage"`
 	NickName string `json:"nickName"`
 	StatusImage string `json"statusImage"`
-	Words dto.Words `json:"words"`
+	Words [4]string `json:"words"`
 	FreeText string `json:"freeText"`
 }
 

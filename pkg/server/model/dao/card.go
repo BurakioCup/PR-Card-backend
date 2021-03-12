@@ -48,7 +48,7 @@ func getMyCardWord(cardID string)error{
 	//取得してきた複数(単数)のレコード1つずつ処理
 	for rows.Next() {
 		//レコードを構造体Articleに整形
-		if err := rows.Scan(&MyCard.Words.Word[count]); err != nil {
+		if err := rows.Scan(&MyCard.Words[count]); err != nil {
 			if err == sql.ErrNoRows {
 				return  nil
 			}
