@@ -6,11 +6,21 @@ import (
 )
 
 type ReadMyCardResponse struct{
-	MyCard dto.MyCard
+	UserName string `json:"userName"`
+	FaceImage string `json:"faceImage"`
+	NickName string `json:"nickName"`
+	StatusImage string `json"statusImage"`
+	Words dto.Words `json:"words"`
+	FreeText string `json:"freeText"`
 }
 
+//type ReadMyCardResponse struct{
+//	MyCard dto.MyCard `json:"myCard"`
+//}
+
 func ReturnReadMyCardResponse(myCard dto.MyCard)ReadMyCardResponse{
-	return ReadMyCardResponse{MyCard: myCard}
+	return ReadMyCardResponse{UserName: myCard.UserName,FaceImage: myCard.FaceImage,NickName: myCard.NickName,
+		StatusImage: myCard.StatusImage,Words: myCard.Words,FreeText: myCard.FreeText}
 }
 
 type Error struct {
