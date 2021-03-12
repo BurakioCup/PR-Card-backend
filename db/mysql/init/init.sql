@@ -65,3 +65,11 @@ INDEX `idx_auth_token` (`id` ASC)
 )
 ENGINE = InnoDB
 COMMENT = 'どのユーザがどの名刺をもつか保存';
+
+CREATE TABLE IF NOT EXISTS `pr_card`.`card_qrs` (
+`card_id` VARCHAR(32) NOT NULL COMMENT 'カード識別ID',
+`card_image` VARCHAR(64) NOT NULL COMMENT 'ユーザ識別ID',
+INDEX `idx_auth_token` (`card_id` ASC)
+)
+ENGINE = InnoDB
+COMMENT = 'どのユーザがどの名刺をもつか保存';
