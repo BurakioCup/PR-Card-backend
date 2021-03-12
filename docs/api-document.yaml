@@ -1,0 +1,524 @@
+openapi: 3.0.2
+info:
+  title: PRcard API
+  description: |-
+    <b>6種の北海道チーズ牛丼 サーバサイド API仕様</b>
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/
+tags:
+  - name: auth
+    description: 認証API
+  - name: PRCard
+    description: PRカード関連API
+  - name: QR
+    description: QRカード関連API
+  - name: Twitter
+    description: Twitter関連API
+  - name: Github
+    description: Github関連API
+
+paths:
+  /sign/up:
+    post:
+      tags:
+        - auth
+      summary: ユーザアカウント情報作成API
+      description: |-
+        ユーザの認証情報を作成します。
+        ユーザの情報をリクエストで受け取り、サーバ内だけで利用するIDと認証用のトークンを生成しデータベースへ保存します。
+        リクエストヘッダーで`userID`と`pass`を取得します
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignUpResponse'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /sign/in:
+    get:
+      tags:
+        - auth
+      summary: ログイン認証API
+      description: |-
+        ユーザの認証をします。
+        ユーザのログイン情報をリクエストで受け取り、サーバ内確認します。
+        リクエストヘッダの`loginID`を読み取ってデータベースに照会
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignInResponse'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /read/all:
+    get:
+      tags:
+        - PRCard
+      summary: PRカード一覧取得API
+      description: |-
+        リクエストヘッダの`token`を取得しユーザがもつ名刺の一覧を返却する
+      security:
+        - ApiToken: []
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadCardsResponse'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /read/{cardID}:
+    get:
+      tags:
+        - PRCard
+      summary: PRカード詳細情報取得API
+      description: |-
+        リクエストヘッダの`token`を取得しユーザを認証
+      security:
+        - ApiToken: []
+      parameters:
+        - $ref: '#/components/parameters/cardID'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadCardResponse'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /read/myCard:
+    get:
+      tags:
+        - PRCard
+      summary: 自分の名刺を取得
+      description: |-
+        リクエストヘッダの`token`を取得しユーザを認証
+      security:
+        - ApiToken: []
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadMyCardResponse'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /create/card/overview:
+    post:
+      tags:
+        - PRCard
+      summary: PRカード情報の登録API(名前、顔写真、グラフのデータ)
+      description: |-
+        名前・顔写真URLをパラメーターとして受け取り保存する。
+      security:
+        - ApiToken: []
+      requestBody:
+        description: Request Body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCardOverviewRequest'
+        required: true
+      responses:
+        200:
+          description: OK
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /create/card/details:
+    post:
+      tags:
+        - PRCard
+      summary: PRカードの情報の登録API(ニックネーム、自分を表す言葉、自由記述欄)
+      description: |-
+        グラフのデータ、自分を表す言葉、自由記述欄を受け取りDBに保管します。
+      security:
+        - ApiToken: []
+      requestBody:
+        description: Request Body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCardDetailsRequest'
+        required: true
+      responses:
+        200:
+          description: OK
+          content: {}
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /update/card:
+    put:
+      tags:
+        - PRCard
+      summary: 名刺情報更新API
+      description: |-
+        ユーザの名刺情報を更新します。
+      security:
+        - ApiToken: []
+      requestBody:
+        description: Request Body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ItemsResponse'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemsResponse'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /read/qr:
+    get:
+      tags:
+        - QR
+      summary: ユーザー自身のQRコード取得API
+      security:
+        - ApiToken: []
+      description: |-
+        リクエストヘッダの`token`を取得しユーザのQRコードのURLを返却します。
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadQRRespnse'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    SignUpRequest:
+      type: object
+      properties:
+        userID:
+          type: string
+          description: ユーザーID
+        password:
+          type: string
+          description: パスワード
+      required:
+        - userID
+        - password
+    SignUpResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          description: クライアント側で保存するトークン
+        loginID:
+          type: string
+          description: 自動ログイン用のuuid
+      required:
+        - token
+    SignInResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          description: クライアント側で保存するトークン
+        loginID:
+          type: string
+          description: 自動ログイン用のuuid
+      required:
+        - token
+    PRCardRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: 名前
+          example: たかし
+        thumbnail:
+          type: string
+          description: アイコン
+          example: "ljkfalkjflkjaflsekjfldjlkj"
+        items:
+          type: object
+          description: レーダーチャート用のデータ
+          $ref: '#/components/schemas/ItemsResponse'
+    CreateCardDetailsRequest:
+      type: object
+      properties:
+        Nickname:
+          type: string
+        words:
+          $ref: '#/components/schemas/WordResponse'
+        freeText:
+          type: string
+          example: "はじめまして、、、、、、、、、"
+    ReadCardsResponse:
+      properties:
+        cards:
+          $ref: '#/components/schemas/PRCardsResponse'
+    PRCardsResponse:
+      properties:
+        cardID:
+          type: string
+          description: PRカードID
+          example: "kjkaiojdiosgjoakojkg"
+        userName:
+          type: string
+          description: 名前
+          example: "西川"
+        faceImage:
+          type: string
+          description: 顔写真
+          example: "http://hogehoge"
+    ReadCardResponse:
+      type: object
+      properties:
+        Nickname:
+          type: string
+          example: "nishikawa"
+        statusImage:
+          type: string
+          description: ユーザのステータス
+          example: "http://hogehoge"
+        words:
+          $ref: '#/components/schemas/WordResponse'
+        freeText:
+          type: string
+          example: "はじめまして、、、、、、、、、"
+    ItemsResponse:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/ItemResponse'
+        words:
+          $ref: '#/components/schemas/WordResponse'
+        freeText:
+          type: string
+          example: "はじめまして、、、、、、、、、"
+      # properties:
+      #   items1:
+      #     type: integer
+      #     example: 100
+      #   items2:
+      #     type: integer
+      #     example: 100
+      #   items3:
+      #     type: integer
+      #     example: 100
+      #   items4:
+      #     type: integer
+      #     example: 100
+      #   items5:
+      #     type: integer
+      #     example: 100
+    WordResponse:
+      # 自分を表す言葉
+      type: object
+      properties:
+        word:
+          type: string
+          example: "真面目"
+    ItemResponse:
+      type: object
+      properties:
+        itemName:
+          type: string
+          example: "趣味"
+        itemScore:
+          type: integer
+          example: 30
+    PRCardResponse:
+      properties:
+        prcard:
+          type: string
+          description: PRカード
+          example: "kjkaiojdiosgjoakojkg"
+    ReadMyCardResponse:
+      properties:
+        userName:
+          type: string
+          description: ユーザの名前
+        faceImage:
+          type: string
+          description: 顔写真のパス
+          example: "http://hogehoge"
+        Nickname:
+          type: string
+          description: ユーザのあだ名
+          example: "nishikawa"
+        statusImage:
+          type: string
+          description: ユーザのステータス
+          example: "http://hogehoge"
+        words:
+          $ref: '#/components/schemas/WordResponse'
+        freeText:
+          type: string
+          example: "はじめまして、、、、、、、、、"
+    SkillListResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/PRCardResponse'
+    CreateCardOverviewRequest:
+      properties:
+        userName:
+          type: string
+          description: ユーザの名前
+        faceImage:
+          type: string
+          description: 顔写真のパス
+        status:
+          $ref: '#/components/schemas/ItemResponse'
+    ReadQRRespnse:
+      properties:
+        qrImage:
+          type: string
+          description: qrコードURL
+          example: "http://hogehoge"
+    # CreateCardDeatailsResponse:
+    #   properties:
+    #     qrImage:
+    #       type: string
+    #       description: qrコードURL
+    #       example: "http://hogehoge"
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: ステータスコード
+        message:
+          type: string
+          description: エラーメッセージ
+        discription:
+          type: string
+          description: エラー詳細メッセージ
+      required:
+        - code
+        - message
+        - discription
+  parameters:
+    userID:
+      name: userID
+      in: header
+      required: true
+      description: userID
+      schema:
+        type: string
+    pass:
+      name: pass
+      in: path
+      required: true
+      description: pass
+      schema:
+        type: string
+    cardID:
+      name: cardID
+      in: path
+      required: true
+      description: cardID
+      schema:
+        type: string
+  securitySchemes:
+    ApiToken:
+      type: apiKey
+      in: header
+      name: X-API-TOKEN
