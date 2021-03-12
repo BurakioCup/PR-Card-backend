@@ -22,7 +22,7 @@ func ReadQRHandler()gin.HandlerFunc{
 			return
 		}
 		client := dao.MakeReadQRClient()
-		cardPath,err := client.Request(userID)
+		cardQR,err := client.Request(userID)
 		if err!=nil{
 			log.Println(err)
 			view.ReturnErrorResponse(
@@ -33,6 +33,6 @@ func ReadQRHandler()gin.HandlerFunc{
 			)
 			return
 		}
-		c.JSON(http.StatusOK, view.ReturnReadQRResponse(cardPath))
+		c.JSON(http.StatusOK, view.ReturnReadQRResponse(cardQR))
 	}
 }
