@@ -37,7 +37,36 @@ func ReadMyCardHandler()gin.HandlerFunc{
 	}
 }
 
-func ReadCardsHandler()gin.HandlerFunc{
+func ReadAllHandler()gin.HandlerFunc{
+	return func(c *gin.Context) {
+		userID := c.GetString("userID")
+		if userID==""{
+			log.Println("[ERROR] userID is empty")
+			view.ReturnErrorResponse(
+				c,
+				http.StatusInternalServerError,
+				"InternalServerError",
+				"userID is empty",
+			)
+			return
+		}
+		client := dao.MakeReadAllClient()
+		cards,err := client.Request(userID)
+		if err!=nil{
+			log.Println(err)
+			view.ReturnErrorResponse(
+				c,
+				http.StatusInternalServerError,
+				"Internal Server Error",
+				"Failed to select card",
+			)
+			return
+		}
+		c.JSON(http.StatusOK, view.ReturnReadAllResponse(&cards))
+	}
+}
+
+func ReadCardHandler()gin.HandlerFunc{
 	return func(c *gin.Context) {
 
 		c.JSON(http.StatusOK, "")
