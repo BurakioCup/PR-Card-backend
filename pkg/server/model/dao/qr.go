@@ -7,9 +7,9 @@ import (
 )
 
 const(
-	InsertUserInfoQuery="SELECT `card_id` FROM `users` WHERE `id` = ? ;"
+	SelectUserInfoQuery="SELECT `card_id` FROM `users` WHERE `id` = ? ;"
 )
-// sign/up
+
 type raedQR struct {
 }
 
@@ -20,7 +20,7 @@ func MakeReadQRClient () raedQR {
 func (info *raedQR)Request(userID string)(string,error){
 	var cardPath string
 	var err error
-	row := Conn.QueryRow(InsertUserInfoQuery, userID)
+	row := Conn.QueryRow(SelectUserInfoQuery, userID)
 	if err = row.Scan(&cardPath); err != nil {
 		if err == sql.ErrNoRows {
 			return "", errors.New("Not created cards")
