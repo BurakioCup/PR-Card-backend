@@ -15,8 +15,6 @@ const(
 	readAllCards = "SELECT `name`,`face_image` FROM `cards` WHERE `id` = ? ;"
 	)
 
-
-
 var (
 	Cards []dto.Card
 	Card *dto.Card
