@@ -3,6 +3,7 @@ package controller
 import (
 	"PR-Card_backend/pkg/server/model/dao"
 	"PR-Card_backend/pkg/server/view"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
@@ -23,7 +24,7 @@ func ReadCardIDHandler()gin.HandlerFunc{
 		}
 		client := dao.MakeReadCardIDClient()
 		card,err := client.Request(cardID)
-		if err!=nil{
+		if err!=nil {
 			log.Println(err)
 			view.ReturnErrorResponse(
 				c,
@@ -33,7 +34,7 @@ func ReadCardIDHandler()gin.HandlerFunc{
 			)
 			return
 		}
-
+		fmt.Println(card)
 		c.JSON(http.StatusOK, "")
 	}
 }
