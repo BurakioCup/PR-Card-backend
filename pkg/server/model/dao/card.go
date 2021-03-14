@@ -41,8 +41,32 @@ func (info *readMyCard)Request(userID string)(dto.MyCard,error){
 	}
 	getMyCardInfo(cardID)
 	getMyCardWord(cardID)
-	return MyCard, err
+  	return MyCard, err
 }
+
+  MyCard dto.MyCard
+)
+
+
+type readCardID struct{
+}
+
+func MakeReadCardIDClient()readCardID{
+	return readCardID{}
+}
+
+func (infom* readCardID)Request(cardID string)(dto.MyCard,error){
+	err := getMyCardInfo(cardID)
+	if err != nil {
+		return MyCard,err
+	}
+	err = getMyCardWord(cardID)
+	if err != nil {
+		return MyCard,err
+	}
+  	return MyCard, err
+}
+
 
 func getMyCardWord(cardID string)error{
 	count := 0
@@ -53,7 +77,6 @@ func getMyCardWord(cardID string)error{
 	defer rows.Close()
 	//取得してきた複数(単数)のレコード1つずつ処理
 	for rows.Next() {
-		//レコードを構造体Articleに整形
 		if err := rows.Scan(&MyCard.Words[count]); err != nil {
 			if err == sql.ErrNoRows {
 				return  nil
@@ -103,7 +126,6 @@ func getListCardIDs(userID string)error{
 	defer rows.Close()
 	//取得してきた複数(単数)のレコード1つずつ処理
 	for rows.Next() {
-		//レコードを構造体Articleに整形
 		Card, err = dto.ConvertToCard(rows)
 		if err != nil {
 			return err

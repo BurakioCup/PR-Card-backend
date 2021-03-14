@@ -106,5 +106,6 @@ INSERT INTO `owned_cards` VALUES ("1","b","d");
 INSERT INTO `owned_cards` VALUES ("1","b","e");
 INSERT INTO `owned_cards` VALUES ("1","b","f");
 INSERT INTO `owned_cards` VALUES ("1","a","g");
-
-insert into `card_qrs` values ("a","https://qrコードだよー");
+INSERT INTO `users` values ("a","a","a","a");
+INSERT INTO `card_qrs` values ("a","https://qrコードだよー");
+INSERT INTO `cards` VALUES ("a","taketo","take","https://","https://","自由記述欄");

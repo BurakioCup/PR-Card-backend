@@ -13,11 +13,11 @@ func ReadMyCardHandler()gin.HandlerFunc{
 		userID := c.GetString("userID")
 		if userID==""{
 			log.Println("[ERROR] userID is empty")
-			view.ReturnErrorResponse(
+      view.ReturnErrorResponse(
 				c,
 				http.StatusInternalServerError,
 				"InternalServerError",
-				"userID is empty",
+        "userID is empty",
 			)
 			return
 		}
@@ -25,15 +25,44 @@ func ReadMyCardHandler()gin.HandlerFunc{
 		myCard,err := client.Request(userID)
 		if err!=nil{
 			log.Println(err)
-			view.ReturnErrorResponse(
+      view.ReturnErrorResponse(
 				c,
 				http.StatusInternalServerError,
 				"Internal Server Error",
-				"Failed to get MyCard info",
+        "Failed to get MyCard info",
 			)
 			return
 		}
 		c.JSON(http.StatusOK, view.ReturnReadMyCardResponse(myCard))
+    }
+}
+      
+func ReadCardIDHandler()gin.HandlerFunc{
+	return func(c *gin.Context) {
+		cardID := c.Query("cardID")
+		if cardID==""{
+			log.Println("[ERROR] cardID is empty")
+			view.ReturnErrorResponse(
+				c,
+				http.StatusInternalServerError,
+				"InternalServerError",
+				"cardID is empty",
+			)
+			return
+		}
+		client := dao.MakeReadCardIDClient()
+		card,err := client.Request(cardID)
+		if err!=nil {
+      log.Println(err)
+			view.ReturnErrorResponse(
+				c,
+				http.StatusInternalServerError,
+				"Internal Server Error",
+        "Failed to get Card infomation",
+			)
+			return
+		}
+		c.JSON(http.StatusOK, view.ReturnReadCard(card))
 	}
 }
 
@@ -90,6 +119,6 @@ func CreateCard()gin.HandlerFunc{
 func UpdateCard()gin.HandlerFunc{
 	return func(c *gin.Context) {
 
-	c.JSON(http.StatusOK, "")
+		c.JSON(http.StatusOK, "")
 	}
 }
