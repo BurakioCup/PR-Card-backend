@@ -35,9 +35,8 @@ func ReturnReadCard(card dto.MyCard)ReadCardResponse{
 		StatusImage: card.StatusImage,Words: card.Words,FreeText: card.FreeText}
 }
 
-type ReadAllResponse struct{
-	Cards *[]dto.Card `json:"cards"`
-}
+
+
 
 func ReturnReadAllResponse(cards *[]dto.Card) ReadAllResponse {
 	return ReadAllResponse{Cards: cards}
