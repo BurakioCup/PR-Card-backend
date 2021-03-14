@@ -94,7 +94,6 @@ func CreateCardOverview() gin.HandlerFunc {
 				return
 			}
 		}
-
 		err := clientCard.Request(userID, upr.UserName, upr.FaceImage)
 		if err != nil {
 			log.Println(err)
@@ -106,7 +105,6 @@ func CreateCardOverview() gin.HandlerFunc {
 			)
 			return
 		}
-
 		c.JSON(http.StatusOK, "hey guys")
 	}
 }

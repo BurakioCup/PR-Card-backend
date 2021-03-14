@@ -18,11 +18,9 @@ func (info *createChart) Request(item string, socre int) error {
 	if err != nil {
 		log.Println("cardID generate is failed")
 	}
-
 	*/
 	//オートインサートにしませんか？
 	id := 5
-
 	cardID := "124"
 
 	stmt, err := Conn.Prepare(InsertmatrixsInfoQuery)
@@ -32,7 +30,6 @@ func (info *createChart) Request(item string, socre int) error {
 
 	_, err = stmt.Exec(id, cardID, item, socre)
 	return err
-
 }
 
 type createCard struct {
