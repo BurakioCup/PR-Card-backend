@@ -103,13 +103,13 @@ func getMyCardInfo(cardID string)error{
 type raedAll struct {
 }
 
-func MakeReadAllClient () raedAll {
+func MakeReadAllClient() raedAll {
 	return raedAll{}
 }
 
-func (info *raedAll)Request(userID string)([]dto.Card,error){
+func (info *raedAll) Request(userID string) ([]dto.Card, error) {
 	err := getListCardIDs(userID)
-	if err !=nil {
+	if err != nil {
 		return nil, err
 	}
 	err = getCards()
@@ -133,8 +133,8 @@ func getListCardIDs(userID string)error{
 	return err
 }
 
-func getCards()error{
-	for i:=0; i<len(Cards); i++{
+func getCards() error {
+	for i := 0; i < len(Cards); i++ {
 		row := Conn.QueryRow(readAllCards, Cards[i].CardID)
 		if err := row.Scan(&Cards[i].UserName,&Cards[i].FaceImage); err != nil {
 			if err == sql.ErrNoRows {

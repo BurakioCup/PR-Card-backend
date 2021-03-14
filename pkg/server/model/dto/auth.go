@@ -9,6 +9,6 @@ type SignInRequest struct {
 
 //アカウント作成リクエスト
 type SignUpRequest struct {
-	ID string `json:"userId"`
+	ID   string `json:"userId"`
 	Pass string `json:"password"`
 }

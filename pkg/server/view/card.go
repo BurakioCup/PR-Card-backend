@@ -4,6 +4,10 @@ import (
 	"PR-Card_backend/pkg/server/model/dto"
 )
 
+type ReadAllResponse struct {
+  Cards *[]dto.Card `json:"cards"`
+}
+
 type ReadMyCardResponse struct{
 	UserName string `json:"userName"`
 	FaceImage string `json:"faceImage"`
@@ -31,9 +35,8 @@ func ReturnReadCard(card dto.MyCard)ReadCardResponse{
 		StatusImage: card.StatusImage,Words: card.Words,FreeText: card.FreeText}
 }
 
-type ReadAllResponse struct{
-	Cards *[]dto.Card `json:"cards"`
-}
+
+
 
 func ReturnReadAllResponse(cards *[]dto.Card) ReadAllResponse {
 	return ReadAllResponse{Cards: cards}

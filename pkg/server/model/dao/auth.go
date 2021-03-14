@@ -3,46 +3,47 @@ package dao
 import (
 	"database/sql"
 	"errors"
-	"github.com/google/uuid"
 	"log"
+
+	"github.com/google/uuid"
 )
 
-const(
+const (
 	AuthenticationLoginID = "SELECT id FROM `users` WHERE `login_id`=? ;"
-	UpdateLoginInfoQuery = "UPDATE `users` set`login_id` = ? where `id` = ? ;"
-	InsertUserInfoQuery="INSERT INTO `users` (id,pass,login_id) VALUES (?,?,?)"
+	UpdateLoginInfoQuery  = "UPDATE `users` set`login_id` = ? where `id` = ? ;"
+	InsertUserInfoQuery   = "INSERT INTO `users` (id,pass,login_id) VALUES (?,?,?)"
 )
 
 // sign/up
 type signUp struct {
 }
 
-func MakeSignUpClient () signUp {
+func MakeSignUpClient() signUp {
 	return signUp{}
 }
 
-func (info *signUp)Request(userID,pass string)(string,error){
+func (info *signUp) Request(userID, pass string) (string, error) {
 	loginID, err := uuid.NewRandom()
 	if err != nil {
 		log.Println("tokenID generate is failed")
 	}
 	stmt, err := Conn.Prepare(InsertUserInfoQuery)
 	if err != nil {
-		return "",err
+		return "", err
 	}
 	_, err = stmt.Exec(userID, pass, loginID)
-	return loginID.String(),err
+	return loginID.String(), err
 }
 
 // sign/in
 type signIn struct {
 }
 
-func MakeSignInClient () signIn {
+func MakeSignInClient() signIn {
 	return signIn{}
 }
 
-func (info *signIn)Request(loginID string)(string,error){
+func (info *signIn) Request(loginID string) (string, error) {
 	var userID string
 	var err error
 	row := Conn.QueryRow(AuthenticationLoginID, loginID)
@@ -61,9 +62,9 @@ func (info *signIn)Request(loginID string)(string,error){
 
 	stmt, err := Conn.Prepare(UpdateLoginInfoQuery)
 	if err != nil {
-		return "",err
+		return "", err
 	}
 
-	_, err = stmt.Exec(loginID,userID)
-	return loginID,err
+	_, err = stmt.Exec(loginID, userID)
+	return loginID, err
 }
