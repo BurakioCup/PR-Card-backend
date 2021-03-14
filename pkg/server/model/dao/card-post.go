@@ -3,7 +3,6 @@ package dao
 
 
 const (
-	InsertcardInfoQuery    = "INSERT INTO `cards` (id,name,image_path) VALUES (?,?,?)"
 	InsertcardWordInfoQuery = "INSERT INTO `card_my_word` (id,card_id,word) VALUES (?,?,?)"
 )
 
@@ -11,12 +10,13 @@ const (
 type createWord struct {
 }
 
-func MakePostCardClientClient() createWord {
+func MakePostWordClientClient() createWord {
 	return createWord{}
 }
 
-func (info *createWord) Request(id,card_id,word string) error {
-
+func (info *createWord) Request(id,word string) error {
+//仮データ
+	card_id:="001"
 	stmt, err := Conn.Prepare(InsertcardWordInfoQuery)
 	if err != nil {
 		return err

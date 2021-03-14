@@ -7,7 +7,7 @@ type RequestWord struct {
 
 type RequestCardDetail struct {
 	Nickname  string             `json:"nickName"`
-	Words    []RequestWord         `json:"words"`
+	Words     []RequestWord      `json:"words"`
 	freeText    string           `json:"freeText"`
 }
 

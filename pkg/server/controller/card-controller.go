@@ -62,6 +62,17 @@ func CreateCardOverview()gin.HandlerFunc {
 
 func CreateCardDetails()gin.HandlerFunc{
 	return func(c *gin.Context) {
+		userID := c.GetString("userID")
+		if userID==""{
+			log.Println("[ERROR] userID is empty")
+			view.ReturnErrorResponse(
+				c,
+				http.StatusInternalServerError,
+				"InternalServerError",
+				"userID is empty",
+			)
+			return
+		}
 		//リクエストボディを取得
 		var rcd dto.RequestCardDetail
 		if err := c.BindJSON(&rcd); err != nil {
@@ -72,6 +83,21 @@ func CreateCardDetails()gin.HandlerFunc{
 				"RequestBody is empty",
 			)
 			return
+		}
+		clientWord := dao.MakePostWordClientClient()
+
+		for _, i := range rcd.Words {
+			err := clientWord.Request(userID,i.Word )
+			if err != nil {
+				log.Println(err)
+				view.ReturnErrorResponse(
+					c,
+					http.StatusInternalServerError,
+					"Internal Server Error",
+					"Failed to word info",
+				)
+				return
+			}
 		}
 		c.JSON(http.StatusOK, "")
 	}
