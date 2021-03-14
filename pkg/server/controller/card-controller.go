@@ -51,7 +51,15 @@ func ReadMycardHandler()gin.HandlerFunc{
 	}
 }
 
-func CreateCard()gin.HandlerFunc{
+func CreateCardOverview()gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.JSON(http.StatusOK, "")
+
+	}
+}
+
+
+func CreateCardDetails()gin.HandlerFunc{
 	return func(c *gin.Context) {
 
 		c.JSON(http.StatusOK, "")
