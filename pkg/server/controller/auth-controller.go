@@ -4,15 +4,16 @@ import (
 	"PR-Card_backend/pkg/hash"
 	"PR-Card_backend/pkg/server/model/dao"
 	"PR-Card_backend/pkg/server/view"
-	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
-func SignUpHandler()gin.HandlerFunc{
+func SignUpHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userID := c.GetHeader("userID")
-		if userID==""{
+		if userID == "" {
 			log.Println("[ERROR] userID is empty")
 			view.ReturnErrorResponse(
 				c,
@@ -23,7 +24,7 @@ func SignUpHandler()gin.HandlerFunc{
 			return
 		}
 		pass := c.GetHeader("pass")
-		if pass==""{
+		if pass == "" {
 			log.Println("[ERROR] pass is empty")
 			view.ReturnErrorResponse(
 				c,
@@ -34,8 +35,8 @@ func SignUpHandler()gin.HandlerFunc{
 			return
 		}
 		client := dao.MakeSignUpClient()
-		loginID, err := client.Request(userID,hash.CreateHashString(pass))
-		if err!=nil{
+		loginID, err := client.Request(userID, hash.CreateHashString(pass))
+		if err != nil {
 			log.Println(err)
 			view.ReturnErrorResponse(
 				c,
@@ -46,11 +47,11 @@ func SignUpHandler()gin.HandlerFunc{
 			return
 		}
 		//token,err :=jwt.CreateToken(userID)
-		c.JSON(http.StatusOK, view.ReturnSignUpResponse(userID,loginID))
+		c.JSON(http.StatusOK, view.ReturnSignUpResponse(userID, loginID))
 	}
 }
 
-func SignInHandler()gin.HandlerFunc {
+func SignInHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		loginID := c.GetHeader("loginId")
 		if loginID == "" {

@@ -8,34 +8,34 @@ import (
 	"log"
 )
 
-const(
+const (
 	readAllCardsID = "SELECT `card_id` FROM `owned_cards` WHERE `user_id` = ? "
-	readAllCards = "SELECT `name`,`image_path` FROM `cards` WHERE `id` = ? ;"
+	readAllCards   = "SELECT `name`,`image_path` FROM `cards` WHERE `id` = ? ;"
 )
 
 var (
 	Cards []dto.Card
-	Card *dto.Card
+	Card  *dto.Card
 )
 
 // read/all
 type raedAll struct {
 }
 
-func MakeReadAllClient () raedAll {
+func MakeReadAllClient() raedAll {
 	return raedAll{}
 }
 
-func (info *raedAll)Request(userID string)([]dto.Card,error){
+func (info *raedAll) Request(userID string) ([]dto.Card, error) {
 	err := getListCardIDs(userID)
-	if err !=nil {
+	if err != nil {
 		return nil, err
 	}
 	err = getCards()
 	return Cards, nil
 }
 
-func getListCardIDs(userID string)error{
+func getListCardIDs(userID string) error {
 	rows, err := Conn.Query(readAllCardsID, userID)
 	if err != nil {
 		return err
@@ -53,11 +53,11 @@ func getListCardIDs(userID string)error{
 	return err
 }
 
-func getCards()error{
-	for i:=0; i<len(Cards); i++{
+func getCards() error {
+	for i := 0; i < len(Cards); i++ {
 		row := Conn.QueryRow(readAllCards, Cards[i].CardID)
 		fmt.Println("aa")
-		if err := row.Scan(&Cards[i].UserName,&Cards[i].FaceImage); err != nil {
+		if err := row.Scan(&Cards[i].UserName, &Cards[i].FaceImage); err != nil {
 			if err == sql.ErrNoRows {
 				return errors.New("Faild get cards info")
 			}

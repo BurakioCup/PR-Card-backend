@@ -4,7 +4,7 @@ import (
 	"PR-Card_backend/pkg/server/model/dto"
 )
 
-type ReadAllResponse struct{
+type ReadAllResponse struct {
 	Cards *[]dto.Card `json:"cards"`
 }
 

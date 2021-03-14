@@ -6,12 +6,12 @@ import (
 )
 
 type Card struct {
-	CardID string `json:"cardID"`
-	UserName string `json:"userName"`
+	CardID    string `json:"cardID"`
+	UserName  string `json:"userName"`
 	FaceImage string `json:"faceImage"`
 }
 
-func ConvertToCard(row *sql.Rows)(*Card, error){
+func ConvertToCard(row *sql.Rows) (*Card, error) {
 	var card Card
 	if err := row.Scan(&card.CardID); err != nil {
 		if err == sql.ErrNoRows {

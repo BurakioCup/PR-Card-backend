@@ -1,24 +1,27 @@
 package controller
 
 import (
+	"PR-Card_backend/pkg/hash"
 	"PR-Card_backend/pkg/server/model/dao"
+	"PR-Card_backend/pkg/server/model/dto"
 	"PR-Card_backend/pkg/server/view"
-	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
-func ReadCardHandler()gin.HandlerFunc{
+func ReadCardHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 
 		c.JSON(http.StatusOK, "")
 	}
 }
 
-func ReadAllHandler()gin.HandlerFunc{
+func ReadAllHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userID := c.GetString("userID")
-		if userID==""{
+		if userID == "" {
 			log.Println("[ERROR] userID is empty")
 			view.ReturnErrorResponse(
 				c,
@@ -29,8 +32,8 @@ func ReadAllHandler()gin.HandlerFunc{
 			return
 		}
 		client := dao.MakeReadAllClient()
-		cards,err := client.Request(userID)
-		if err!=nil{
+		cards, err := client.Request(userID)
+		if err != nil {
 			log.Println(err)
 			view.ReturnErrorResponse(
 				c,
@@ -44,23 +47,71 @@ func ReadAllHandler()gin.HandlerFunc{
 	}
 }
 
-func ReadMycardHandler()gin.HandlerFunc{
+func ReadMycardHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 
 		c.JSON(http.StatusOK, "")
 	}
 }
 
-func CreateCard()gin.HandlerFunc{
+func CreateCardOverview()gin.HandlerFunc{
+	return func(c *gin.Context) {
+
+		userID := c.GetString("userID")
+		if userID == "" {
+			log.Println("[ERROR] userID is empty")
+			view.ReturnErrorResponse(
+				c,
+				http.StatusInternalServerError,
+				"InternalServerError",
+				"userID is empty",
+			)
+			return
+		}
+
+		//リクエストボディを取得
+		var upr dto.RequestCardOver
+		if err := c.BindJSON(&upr); err != nil {
+			view.ReturnErrorResponse(
+				c,
+				http.StatusBadRequest,
+				"Bad Request",
+				"RequestBody is empty",
+			)
+			return
+		}
+		clientCard := dao.MakePostCardClientClient()
+		clientChart:= dao.MakePostChartClientClient()
+
+		chart, err := clientChart.Request()
+		if err != nil {
+			log.Println(err)
+			view.ReturnErrorResponse(
+				c,
+				http.StatusInternalServerError,
+				"Internal Server Error",
+				"Failed to insert user info",
+			)
+			return
+		}
+
+
+		c.JSON(http.StatusOK, "")
+	}
+}
+
+
+func CreateCardDetails()gin.HandlerFunc{
 	return func(c *gin.Context) {
 
 		c.JSON(http.StatusOK, "")
 	}
 }
 
-func UpdateCard()gin.HandlerFunc{
+
+func UpdateCard() gin.HandlerFunc {
 	return func(c *gin.Context) {
 
-	c.JSON(http.StatusOK, "")
+		c.JSON(http.StatusOK, "")
 	}
 }

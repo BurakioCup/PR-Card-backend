@@ -4,8 +4,10 @@ import (
 	"PR-Card_backend/configs"
 	"database/sql"
 	"fmt"
-	"github.com/cenkalti/backoff"
 	"log"
+
+	"github.com/cenkalti/backoff"
+
 	// blank import for MySQL driver
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -13,16 +15,15 @@ import (
 // Driver名
 const DriverName = "mysql"
 
-
 // Conn 各repositoryで利用するDB接続(Connection)情報
 var Conn *sql.DB
 var DBConnectionInfo string
 
-func Init() error{
+func Init() error {
 	var err error
 	DBConnectionInfo = configs.GetDBConnectionInfo()
-	if err = createDBConnection();err!=nil{
-		if err = dbConnectionBackoff();err !=nil {
+	if err = createDBConnection(); err != nil {
+		if err = dbConnectionBackoff(); err != nil {
 			return err
 		}
 	}
@@ -30,19 +31,19 @@ func Init() error{
 	return err
 }
 
-func createDBConnection()error{
+func createDBConnection() error {
 	var err error
 	Conn, err = sql.Open(DriverName, DBConnectionInfo)
 	if err != nil {
 		return err
 	}
-	if err = Conn.Ping();err!=nil{
+	if err = Conn.Ping(); err != nil {
 		return err
 	}
 	return nil
 }
 
-func dbConnectionBackoff()error{
+func dbConnectionBackoff() error {
 	b := backoff.WithMaxRetries(backoff.NewExponentialBackOff(), 7)
 	err := backoff.Retry(Conn.Ping, b)
 	if err != nil {
