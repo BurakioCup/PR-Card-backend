@@ -44,8 +44,6 @@ func (info *readMyCard)Request(userID string)(dto.MyCard,error){
   	return MyCard, err
 }
 
-  MyCard dto.MyCard
-)
 
 
 type readCardID struct{

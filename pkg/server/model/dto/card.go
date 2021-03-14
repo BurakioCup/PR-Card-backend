@@ -22,15 +22,6 @@ type Card struct {
 	FaceImage string `json:"faceImage"`
 }
 
-type MyCard struct{
-	UserName string
-	FaceImage string
-	NickName string
-	StatusImage string
-	Words [4]string
-	FreeText string
-}
-
 func ConvertToCard(row *sql.Rows)(*Card, error){
 	var card Card
 	if err := row.Scan(&card.CardID); err != nil {
