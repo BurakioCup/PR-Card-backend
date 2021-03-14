@@ -5,12 +5,6 @@ import (
 	"log"
 )
 
-type Card struct {
-	CardID string `json:"cardID"`
-	UserName string `json:"userName"`
-	FaceImage string `json:"faceImage"`
-}
-
 type MyCard struct{
 	UserName string
 	FaceImage string
@@ -18,6 +12,14 @@ type MyCard struct{
 	StatusImage string
 	Words [4]string
 	FreeText string
+}
+
+
+
+type Card struct {
+	CardID string `json:"cardID"`
+	UserName string `json:"userName"`
+	FaceImage string `json:"faceImage"`
 }
 
 func ConvertToCard(row *sql.Rows)(*Card, error){

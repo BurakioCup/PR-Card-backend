@@ -8,17 +8,42 @@ import (
 )
 
 const(
+	SelectMyCardID = "SELECT `card_id` FROM `users` WHERE `id` =?;"
 	SelectMyCard = "SELECT `name`,`nick_name`,`face_image`,`status_image`,`free_text` FROM `cards` WHERE `id` = ?;"
-	SelectMyCardWords = "SELECT `word` FROM `card_my_word` WHERE `card_id` = ?;"
-  readAllCardsID = "SELECT `card_id` FROM `owned_cards` WHERE `user_id` = ? "
-	readAllCards = "SELECT `name`,`image_path` FROM `cards` WHERE `id` = ? ;"
+	SelectMyCardWords = "SELECT `word` FROM `card_my_word` WHERE `card_id` = ?"
+	ReadAllCardsID = "SELECT `card_id` FROM `owned_cards` WHERE `user_id` = ? "
+	readAllCards = "SELECT `name`,`face_image` FROM `cards` WHERE `id` = ? ;"
 	)
 
 var (
 	Cards []dto.Card
 	Card *dto.Card
-  MyCard dto.MyCard
+	MyCard dto.MyCard
 )
+
+type readMyCard struct{
+}
+
+func MakeReadMyCardClient()readMyCard{
+	return readMyCard{}
+}
+
+func (info *readMyCard)Request(userID string)(dto.MyCard,error){
+	var cardID string
+	var err error
+	row := Conn.QueryRow(SelectMyCardID, userID)
+	if err = row.Scan(&cardID); err != nil {
+		if err == sql.ErrNoRows {
+			return MyCard, errors.New("Not created cards")
+		}
+		log.Println(err)
+		return MyCard, err
+	}
+	getMyCardInfo(cardID)
+	getMyCardWord(cardID)
+  	return MyCard, err
+}
+
 
 
 type readCardID struct{
@@ -37,8 +62,9 @@ func (infom* readCardID)Request(cardID string)(dto.MyCard,error){
 	if err != nil {
 		return MyCard,err
 	}
-	return MyCard, err
+  	return MyCard, err
 }
+
 
 func getMyCardWord(cardID string)error{
 	count := 0
@@ -91,7 +117,7 @@ func (info *raedAll)Request(userID string)([]dto.Card,error){
 }
 
 func getListCardIDs(userID string)error{
-	rows, err := Conn.Query(readAllCardsID, userID)
+	rows, err := Conn.Query(ReadAllCardsID, userID)
 	if err != nil {
 		return err
 	}
