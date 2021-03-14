@@ -53,7 +53,7 @@ func ReadMycardHandler() gin.HandlerFunc {
 	}
 }
 
-func CreateCardOverview()gin.HandlerFunc{
+func CreateCardOverview() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userID := c.GetString("userID")
 		if userID == "" {
@@ -79,7 +79,7 @@ func CreateCardOverview()gin.HandlerFunc{
 			return
 		}
 		clientCard := dao.MakePostCardClientClient()
-		clientChart:= dao.MakePostChartClientClient()
+		clientChart := dao.MakePostChartClientClient()
 
 		for _, i := range upr.Status {
 			err := clientChart.Request(i.ItemName, i.ItemScore)
@@ -95,7 +95,7 @@ func CreateCardOverview()gin.HandlerFunc{
 			}
 		}
 
-		err := clientCard.Request(userID,upr.UserName, upr.FaceImage)
+		err := clientCard.Request(userID, upr.UserName, upr.FaceImage)
 		if err != nil {
 			log.Println(err)
 			view.ReturnErrorResponse(
@@ -111,14 +111,12 @@ func CreateCardOverview()gin.HandlerFunc{
 	}
 }
 
-
-func CreateCardDetails()gin.HandlerFunc{
+func CreateCardDetails() gin.HandlerFunc {
 	return func(c *gin.Context) {
 
 		c.JSON(http.StatusOK, "")
 	}
 }
-
 
 func UpdateCard() gin.HandlerFunc {
 	return func(c *gin.Context) {

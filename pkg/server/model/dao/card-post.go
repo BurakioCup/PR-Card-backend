@@ -1,26 +1,25 @@
 package dao
 
 const (
-	InsertcardInfoQuery   = "INSERT INTO `cards` (id,name,image_path) VALUES (?,?,?)"
-	InsertmatrixsInfoQuery   = "INSERT INTO `card_matrixs` (id,card_id,item,socre) VALUES (?,?,?,?)"
+	InsertcardInfoQuery    = "INSERT INTO `cards` (id,name,image_path) VALUES (?,?,?)"
+	InsertmatrixsInfoQuery = "INSERT INTO `card_matrixs` (id,card_id,item,socre) VALUES (?,?,?,?)"
 )
-
 
 type createChart struct {
 }
 
-func MakePostChartClientClient() createChart{
+func MakePostChartClientClient() createChart {
 	return createChart{}
 }
 
-func (info *createChart)Request(item string, socre int) error {
+func (info *createChart) Request(item string, socre int) error {
 
 	/*cardID, err := uuid.NewRandom()
 	if err != nil {
 		log.Println("cardID generate is failed")
 	}
 
-	 */
+	*/
 	//オートインサートにしませんか？
 	id := 5
 
@@ -31,8 +30,8 @@ func (info *createChart)Request(item string, socre int) error {
 		return err
 	}
 
-	_, err = stmt.Exec(id,cardID, item, socre)
-	return  err
+	_, err = stmt.Exec(id, cardID, item, socre)
+	return err
 
 }
 
@@ -43,13 +42,12 @@ func MakePostCardClientClient() createCard {
 	return createCard{}
 }
 
-func (info *createCard)Request(user_id,name, image_path string) error{
+func (info *createCard) Request(user_id, name, image_path string) error {
 
 	stmt, err := Conn.Prepare(InsertcardInfoQuery)
 	if err != nil {
 		return err
 	}
-	_, err = stmt.Exec(user_id,name,image_path)
-	return  err
+	_, err = stmt.Exec(user_id, name, image_path)
+	return err
 }
-
