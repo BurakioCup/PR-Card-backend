@@ -28,7 +28,7 @@ COMMENT = 'アカウント情報を保存';
 CREATE TABLE IF NOT EXISTS `pr_card`.`cards` (
 `id` VARCHAR(64) NOT NULL COMMENT 'カード識別ID',
 `name` VARCHAR(32) NOT NULL COMMENT 'ユーザ名',
-`nick_name` VARCHAR(32) NOT NULL COMMENT 'ニックネーム',
+`nick_name` VARCHAR(32) COMMENT 'ニックネーム',
 `face_image` VARCHAR(64) COMMENT '顔画像のパス',
 `status_image` VARCHAR(64) COMMENT 'ステータス画像のパス',
 `free_text` TEXT COMMENT '自由記述欄',
@@ -40,7 +40,7 @@ COMMENT = '名刺の要素を保存';
 
 CREATE TABLE IF NOT EXISTS `pr_card`.`card_matrixs` (
 `id` VARCHAR(64) NOT NULL COMMENT '識別ID',
-`card_id` VARCHAR(32) NOT NULL COMMENT 'カード識別ID',
+`card_id` VARCHAR(64) NOT NULL COMMENT 'カード識別ID',
 `item` VARCHAR(64) COMMENT '項目名',
 `socre` INT COMMENT 'スコア',
 PRIMARY KEY (`id`),
@@ -51,7 +51,7 @@ COMMENT = '名刺のグラフ部分の要素を保存';
 
 CREATE TABLE IF NOT EXISTS `pr_card`.`card_my_word` (
 `id` VARCHAR(64) NOT NULL COMMENT '識別ID',
-`card_id` VARCHAR(32) NOT NULL COMMENT 'カード識別ID',
+`card_id` VARCHAR(64) NOT NULL COMMENT 'カード識別ID',
 `word` VARCHAR(64) COMMENT '自分を表す単語',
 PRIMARY KEY (`id`),
 INDEX `idx_auth_token` (`id` ASC)
@@ -81,6 +81,7 @@ INSERT INTO `users` VALUES ("a","a","uuid");
 INSERT INTO `cards` VALUES ("a","token","takashi","https://","https://","こんにちわ、西川です。");
 INSERT INTO `cards` VALUES ("b","a","taketo","https://","https://","こんにちわ、若松です。");
 INSERT INTO `cards` VALUES ("c","b","osaki","https://","https://","こんにちわ、大崎です。");
+INSERT INTO `cards` VALUES ("d","taketo","take","https://","https://","自由記述欄");
 
 INSERT INTO `card_my_word` VALUES ("1","a","sample1");
 INSERT INTO `card_my_word` VALUES ("2","a","sample2");
@@ -108,4 +109,3 @@ INSERT INTO `owned_cards` VALUES ("1","b","f");
 INSERT INTO `owned_cards` VALUES ("1","a","g");
 INSERT INTO `users` values ("a","a","a","a");
 INSERT INTO `card_qrs` values ("a","https://qrコードだよー");
-INSERT INTO `cards` VALUES ("a","taketo","take","https://","https://","自由記述欄");

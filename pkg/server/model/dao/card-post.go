@@ -1,7 +1,9 @@
 package dao
 
+import "github.com/google/uuid"
+
 const (
-	InsertcardInfoQuery    = "INSERT INTO `cards` (id,name,image_path) VALUES (?,?,?)"
+	InsertcardInfoQuery    = "INSERT INTO `cards` (id,name,face_image) VALUES (?,?,?)"
 	InsertmatrixsInfoQuery = "INSERT INTO `card_matrixs` (id,card_id,item,socre) VALUES (?,?,?,?)"
 )
 
@@ -20,7 +22,7 @@ func (info *createChart) Request(item string, socre int) error {
 	}
 	*/
 	//オートインサートにしませんか？
-	id := 5
+	id := uuid.New()
 	cardID := "124"
 
 	stmt, err := Conn.Prepare(InsertmatrixsInfoQuery)
