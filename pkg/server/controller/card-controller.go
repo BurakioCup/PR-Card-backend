@@ -55,7 +55,17 @@ func ReadMycardHandler() gin.HandlerFunc {
 
 func CreateCardOverview()gin.HandlerFunc{
 	return func(c *gin.Context) {
-
+		userID := c.GetString("userID")
+		if userID == "" {
+			log.Println("[ERROR] userID is empty")
+			view.ReturnErrorResponse(
+				c,
+				http.StatusInternalServerError,
+				"InternalServerError",
+				"userID is empty",
+			)
+			return
+		}
 
 		//リクエストボディを取得
 		var upr dto.RequestCardOver
@@ -68,7 +78,7 @@ func CreateCardOverview()gin.HandlerFunc{
 			)
 			return
 		}
-		//clientCard := dao.MakePostCardClientClient()
+		clientCard := dao.MakePostCardClientClient()
 		clientChart:= dao.MakePostChartClientClient()
 
 		for _, i := range upr.Status {
@@ -84,8 +94,8 @@ func CreateCardOverview()gin.HandlerFunc{
 				return
 			}
 		}
-		/*
-		err := clientCard.Request(name, image_path, free_text)
+
+		err := clientCard.Request(userID,upr.UserName, upr.FaceImage)
 		if err != nil {
 			log.Println(err)
 			view.ReturnErrorResponse(
@@ -96,10 +106,6 @@ func CreateCardOverview()gin.HandlerFunc{
 			)
 			return
 		}
-
-
-
-		 */
 
 		c.JSON(http.StatusOK, "hey guys")
 	}

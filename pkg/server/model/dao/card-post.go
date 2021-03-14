@@ -1,7 +1,7 @@
 package dao
 
 const (
-	InsertcardInfoQuery   = "INSERT INTO `cards` (id,name,image_path,free_text) VALUES (?,?,?,?)"
+	InsertcardInfoQuery   = "INSERT INTO `cards` (id,name,image_path) VALUES (?,?,?)"
 	InsertmatrixsInfoQuery   = "INSERT INTO `card_matrixs` (id,card_id,item,socre) VALUES (?,?,?,?)"
 )
 
@@ -22,7 +22,7 @@ func (info *createChart)Request(item string, socre int) error {
 
 	 */
 	//オートインサートにしませんか？
-	id := 4
+	id := 5
 
 	cardID := "124"
 
@@ -43,12 +43,13 @@ func MakePostCardClientClient() createCard {
 	return createCard{}
 }
 
-func (info *createCard)Request(user_id,name, image_path, free_text string) error{
+func (info *createCard)Request(user_id,name, image_path string) error{
+
 	stmt, err := Conn.Prepare(InsertcardInfoQuery)
 	if err != nil {
 		return err
 	}
-	_, err = stmt.Exec(user_id,name,image_path, free_text)
+	_, err = stmt.Exec(user_id,name,image_path)
 	return  err
 }
 
