@@ -2,6 +2,7 @@ package controller
 
 import (
 	"PR-Card_backend/pkg/server/model/dao"
+	"PR-Card_backend/pkg/server/model/dto"
 	"PR-Card_backend/pkg/server/view"
 	"github.com/gin-gonic/gin"
 	"log"
@@ -61,7 +62,17 @@ func CreateCardOverview()gin.HandlerFunc {
 
 func CreateCardDetails()gin.HandlerFunc{
 	return func(c *gin.Context) {
-
+		//リクエストボディを取得
+		var rcd dto.RequestCardDetail
+		if err := c.BindJSON(&rcd); err != nil {
+			view.ReturnErrorResponse(
+				c,
+				http.StatusBadRequest,
+				"Bad Request",
+				"RequestBody is empty",
+			)
+			return
+		}
 		c.JSON(http.StatusOK, "")
 	}
 }
