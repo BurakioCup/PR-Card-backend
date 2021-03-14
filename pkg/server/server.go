@@ -21,15 +21,15 @@ func init() {
 	//ユーザが持っている名刺一覧
 	Server.GET("/read/all", middleware.Authenticate(controller.ReadAllHandler()))
 	//一覧から一つの名刺を詳細表示
-	Server.GET("/read/card", middleware.Authenticate(controller.ReadCardHandler()))
+	Server.GET("/read", middleware.Authenticate(controller.ReadCardIDHandler()))
 	//自分の名刺を編集するために最初の状態を送信
-	Server.GET("/read/mycard", middleware.Authenticate(controller.ReadMycardHandler()))
-	//名前・顔写真URLをパラメーターとってたかしにぶん投げて返却されたものを保存
+	Server.GET("/read/myCard", middleware.Authenticate(controller.ReadMyCardHandler()))
+  //名前・顔写真URLをパラメーターとってたかしにぶん投げて返却されたものを保存
 	Server.POST("/create/card/overview", middleware.Authenticate(controller.CreateCardOverview()))
 	//グラフのデータ、自分を表す言葉、自由記述欄を受け取りDBに保管
 	Server.POST("/create/card/details", middleware.Authenticate(controller.CreateCardDetails()))
 	//自分の変更後の名刺を登録
 	Server.PUT("/update/card", middleware.Authenticate(controller.UpdateCard()))
 	//名刺を表示するためのQRのリンクを送信
-	Server.GET("/read/qr", middleware.Authenticate(controller.ReadQR()))
+	Server.GET("/read/qr", middleware.Authenticate(controller.ReadQRHandler()))
 }

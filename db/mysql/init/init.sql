@@ -28,7 +28,7 @@ COMMENT = 'アカウント情報を保存';
 CREATE TABLE IF NOT EXISTS `pr_card`.`cards` (
 `id` VARCHAR(64) NOT NULL COMMENT 'カード識別ID',
 `name` VARCHAR(32) NOT NULL COMMENT 'ユーザ名',
-`nick_name`VARCHAR(32) NOT NULL COMMENT 'ニックネーム',
+`nick_name` VARCHAR(32) NOT NULL COMMENT 'ニックネーム',
 `face_image` VARCHAR(64) COMMENT '顔画像のパス',
 `status_image` VARCHAR(64) COMMENT 'ステータス画像のパス',
 `free_text` TEXT COMMENT '自由記述欄',
@@ -68,7 +68,33 @@ INDEX `idx_auth_token` (`id` ASC)
 ENGINE = InnoDB
 COMMENT = 'どのユーザがどの名刺をもつか保存';
 
----- insert ----
+CREATE TABLE IF NOT EXISTS `pr_card`.`card_qrs` (
+`card_id` VARCHAR(32) NOT NULL COMMENT 'カード識別ID',
+`card_image` VARCHAR(64) NOT NULL COMMENT 'qrコードURL',
+INDEX `idx_auth_token` (`card_id` ASC)
+)
+ENGINE = InnoDB
+COMMENT = 'カードのQRコードののURLを保存';
+
+-- insert --
+INSERT INTO `users` VALUES ("a","a","uuid");
+INSERT INTO `cards` VALUES ("a","token","takashi","https://","https://","こんにちわ、西川です。");
+INSERT INTO `cards` VALUES ("b","a","taketo","https://","https://","こんにちわ、若松です。");
+INSERT INTO `cards` VALUES ("c","b","osaki","https://","https://","こんにちわ、大崎です。");
+
+INSERT INTO `card_my_word` VALUES ("1","a","sample1");
+INSERT INTO `card_my_word` VALUES ("2","a","sample2");
+INSERT INTO `card_my_word` VALUES ("3","a","sample3");
+INSERT INTO `card_my_word` VALUES ("4","a","sample4");
+INSERT INTO `card_my_word` VALUES ("5","b","sample1");
+INSERT INTO `card_my_word` VALUES ("6","b","sample2");
+INSERT INTO `card_my_word` VALUES ("7","b","sample3");
+INSERT INTO `card_my_word` VALUES ("8","b","sample4");
+INSERT INTO `card_my_word` VALUES ("9","c","sample1");
+INSERT INTO `card_my_word` VALUES ("10","c","sample2");
+INSERT INTO `card_my_word` VALUES ("11","c","sample3");
+INSERT INTO `card_my_word` VALUES ("12","c","sample4");
+
 INSERT INTO `owned_cards` VALUES ("1","a","b");
 INSERT INTO `owned_cards` VALUES ("1","a","c");
 INSERT INTO `owned_cards` VALUES ("1","a","d");
@@ -80,3 +106,6 @@ INSERT INTO `owned_cards` VALUES ("1","b","d");
 INSERT INTO `owned_cards` VALUES ("1","b","e");
 INSERT INTO `owned_cards` VALUES ("1","b","f");
 INSERT INTO `owned_cards` VALUES ("1","a","g");
+INSERT INTO `users` values ("a","a","a","a");
+INSERT INTO `card_qrs` values ("a","https://qrコードだよー");
+INSERT INTO `cards` VALUES ("a","taketo","take","https://","https://","自由記述欄");
