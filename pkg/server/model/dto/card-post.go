@@ -1,13 +1,14 @@
 package dto
 
-type RequestItemScore struct {
+type RequestItem struct {
 	ItemName  string `json:"itemName"`
-	ItemScore string `json:"itemScore"`
+	ItemScore int `json:"itemScore"`
 }
+
 
 type RequestCardOver struct {
 	UserName  string             `json:"userName"`
 	FaceImage string             `json:"faceImage"`
-	Status    []RequestItemScore `json:"status"`
+	Status    []RequestItem      `json:"status"`
 }
 

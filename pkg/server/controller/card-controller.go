@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"PR-Card_backend/pkg/hash"
 	"PR-Card_backend/pkg/server/model/dao"
 	"PR-Card_backend/pkg/server/model/dto"
 	"PR-Card_backend/pkg/server/view"
@@ -57,17 +56,6 @@ func ReadMycardHandler() gin.HandlerFunc {
 func CreateCardOverview()gin.HandlerFunc{
 	return func(c *gin.Context) {
 
-		userID := c.GetString("userID")
-		if userID == "" {
-			log.Println("[ERROR] userID is empty")
-			view.ReturnErrorResponse(
-				c,
-				http.StatusInternalServerError,
-				"InternalServerError",
-				"userID is empty",
-			)
-			return
-		}
 
 		//リクエストボディを取得
 		var upr dto.RequestCardOver
@@ -80,23 +68,40 @@ func CreateCardOverview()gin.HandlerFunc{
 			)
 			return
 		}
-		clientCard := dao.MakePostCardClientClient()
+		//clientCard := dao.MakePostCardClientClient()
 		clientChart:= dao.MakePostChartClientClient()
 
-		chart, err := clientChart.Request()
+		for _, i := range upr.Status {
+			err := clientChart.Request(i.ItemName, i.ItemScore)
+			if err != nil {
+				log.Println(err)
+				view.ReturnErrorResponse(
+					c,
+					http.StatusInternalServerError,
+					"Internal Server Error",
+					"Failed to chart info",
+				)
+				return
+			}
+		}
+		/*
+		err := clientCard.Request(name, image_path, free_text)
 		if err != nil {
 			log.Println(err)
 			view.ReturnErrorResponse(
 				c,
 				http.StatusInternalServerError,
 				"Internal Server Error",
-				"Failed to insert user info",
+				"Failed to card info",
 			)
 			return
 		}
 
 
-		c.JSON(http.StatusOK, "")
+
+		 */
+
+		c.JSON(http.StatusOK, "hey guys")
 	}
 }
 

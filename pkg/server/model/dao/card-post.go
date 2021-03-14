@@ -1,13 +1,8 @@
 package dao
 
-import (
-	"github.com/google/uuid"
-	"log"
-)
-
 const (
-	InsertcardInfoQuery   = "INSERT INTO `users` (id,name,image_path,free_text) VALUES (?,?,?,?)"
-	InsertmatrixsInfoQuery   = "INSERT INTO `users` (id,card_id,item,score) VALUES (?,?,?,?)"
+	InsertcardInfoQuery   = "INSERT INTO `cards` (id,name,image_path,free_text) VALUES (?,?,?,?)"
+	InsertmatrixsInfoQuery   = "INSERT INTO `card_matrixs` (id,card_id,item,socre) VALUES (?,?,?,?)"
 )
 
 
@@ -18,20 +13,28 @@ func MakePostChartClientClient() createChart{
 	return createChart{}
 }
 
-func (info *createChart)Request(id,item string, score int) error{
-	cardID, err := uuid.NewRandom()
+func (info *createChart)Request(item string, socre int) error {
+
+	/*cardID, err := uuid.NewRandom()
 	if err != nil {
 		log.Println("cardID generate is failed")
 	}
+
+	 */
+	//オートインサートにしませんか？
+	id := 4
+
+	cardID := "124"
+
 	stmt, err := Conn.Prepare(InsertmatrixsInfoQuery)
 	if err != nil {
 		return err
 	}
-	_, err = stmt.Exec(id,cardID,item,score)
+
+	_, err = stmt.Exec(id,cardID, item, socre)
 	return  err
+
 }
-
-
 
 type createCard struct {
 }
