@@ -1,16 +1,40 @@
 package dto
 
-import "encoding/base64"
-
 type Chart struct {
 	ItemName  []string `json:"itemName"`
 	ItemScore []int    `json:"itemScore"`
 }
 
 type RequestCardOver struct {
-	FaceImage base64.Encoding `json:"faceImage"`
+	FaceImage string `json:"faceImage"`
 	Status    []Chart         `json:"status"`
 }
+
+//takashiへのリクエストボディ
+type RequestCardOverNode struct {
+	FaceImage string `json:"faceImage"`
+	FaceImageName string      `json:"faceIconName"`
+	Status    []Chart         `json:"status"`
+	StatusImageName string    `json:"chartName"`
+}
+
+func (r RequestCardOverNode) Read(p []byte) (n int, err error) {
+	panic("implement me")
+}
+
+func RequestCardResponse(cardID,faceImage string,status []Chart)RequestCardOverNode{
+	return RequestCardOverNode{
+		FaceImage :faceImage,
+		FaceImageName : cardID+"_"+"faceImage"+".png",
+		Status  : status,
+		StatusImageName:cardID+"_"+"statusImage"+".png",
+	}
+}
+
+
+
+
+
 
 func (r RequestCardOver) Read(p []byte) (n int, err error) {
 	panic("implement me")
