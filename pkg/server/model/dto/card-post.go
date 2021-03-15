@@ -18,13 +18,12 @@ type RequestCardOverNode struct {
 	StatusImageName string   `json:"chartName"`
 }
 
-
-func RequestCardResponse(cardID,faceImage string,status Chart)RequestCardOverNode{
+func RequestCardResponse(cardID, faceImage string, status Chart) RequestCardOverNode {
 	return RequestCardOverNode{
-		FaceImage :faceImage,
-		FaceImageName : cardID+"_"+"faceImage"+".png",
-		Status  : status,
-		StatusImageName:cardID+"_"+"statusImage"+".png",
+		FaceImage:       faceImage,
+		FaceImageName:   cardID + "_" + "faceImage" + ".png",
+		Status:          status,
+		StatusImageName: cardID + "_" + "statusImage" + ".png",
 	}
 }
 

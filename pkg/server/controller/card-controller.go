@@ -4,17 +4,14 @@ import (
 	"PR-Card_backend/pkg/server/model/dao"
 	"PR-Card_backend/pkg/server/model/dto"
 	"PR-Card_backend/pkg/server/view"
-	"github.com/google/uuid"
-	//"strings"
-
-	//"bytes"
+	"bytes"
 	"encoding/json"
+	"fmt"
+	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	//"io/ioutil"
 	"log"
 	"net/http"
-	//"net/http/cookiejar"
-
-	"github.com/gin-gonic/gin"
 )
 
 func ReadMyCardHandler() gin.HandlerFunc {
@@ -135,17 +132,27 @@ func CreateCardOverview() gin.HandlerFunc {
 
 		cardID := uuid.New().String()
 
-		req:=dto.RequestCardResponse(cardID,upr.FaceImage,upr.Status)
+
+		 req := dto.RequestCardResponse(cardID,upr.FaceImage,upr.Status)
+
 
 		//takashi serverへのPOST処理
-		endpoint := " http://localhost:3000/newIconChart"
-		reqBody, _ := http.NewRequest("POST", endpoint, req)
+		endpoint := "http://localhost:3000/newIconChart"
+	//	reqBody, _ := http.NewRequest("POST", endpoint,  bytes.NewBuffer(sample_req))
 
 
-		reqBody.Header.Set("Content-Type", "application/json")
+		sample_json, _ := json.Marshal(req)
+		fmt.Printf("[+] %s\n", string(sample_json))
 
+		// send json
+		//// ポイント2, 3
+		res, err := http.Post(endpoint, "application/json", bytes.NewBuffer(sample_json))
+		defer res.Body.Close()
+		//byteArray, _ := ioutil.ReadAll(res.Body)
+		/*
+		res.Header.Set("Content-Type", "application/json")
 		client := new(http.Client)
-		resp, err := client.Do(reqBody)
+		resp, err := client.Do(res)
 		if err != nil {
 			view.ReturnErrorResponse(
 				c,
@@ -156,10 +163,13 @@ func CreateCardOverview() gin.HandlerFunc {
 			return
 		}
 
-		defer reqBody.Body.Close()
+		 */
+
+
+
 		//ボディの取得
 		var requestBody view.CreateCardOverResponse
-		if err := json.NewDecoder(resp.Body).Decode(&requestBody); err != nil {
+		if err := json.NewDecoder(res.Body).Decode(&requestBody); err != nil {
 			view.ReturnErrorResponse(
 				c,
 				http.StatusBadRequest,
@@ -168,6 +178,7 @@ func CreateCardOverview() gin.HandlerFunc {
 			)
 			return
 		}
+
 
 
 		responseBody := view.ReturnCreateCardResponse(requestBody.FaceImage,requestBody.StatusImage)
