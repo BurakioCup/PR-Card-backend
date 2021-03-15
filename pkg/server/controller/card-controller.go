@@ -119,17 +119,6 @@ func ReadMycardHandler() gin.HandlerFunc {
 
 func CreateCardOverview() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		userID := c.GetString("userID")
-		if userID == "" {
-			log.Println("[ERROR] userID is empty")
-			view.ReturnErrorResponse(
-				c,
-				http.StatusInternalServerError,
-				"InternalServerError",
-				"userID is empty",
-			)
-			return
-		}
 
 		//リクエストボディを取得
 		var upr dto.RequestCardOver
@@ -148,11 +137,9 @@ func CreateCardOverview() gin.HandlerFunc {
 		req:=dto.RequestCardResponse(cardID,upr.FaceImage,upr.Status)
 
 		//takashi serverへのPOST処理
-		endpoint := " http://localhost:3000/"
-		reqBody, err := http.NewRequest("POST", endpoint, req)
-		if err != nil {
-			//panic("Error")
-		}
+		endpoint := " http://localhost:3000/newIconChart"
+		reqBody, _ := http.NewRequest("POST", endpoint, req)
+
 
 		reqBody.Header.Set("Content-Type", "application/json")
 
@@ -162,7 +149,7 @@ func CreateCardOverview() gin.HandlerFunc {
 			view.ReturnErrorResponse(
 				c,
 				http.StatusBadRequest,
-				"Bad Request",
+				"Bad Request node",
 				"RequestBody is empty",
 			)
 			return

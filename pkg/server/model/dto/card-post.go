@@ -1,28 +1,25 @@
 package dto
 
 type Chart struct {
-	ItemName  []string `json:"itemName"`
-	ItemScore []int    `json:"itemScore"`
+	ItemName  [5]string `json:"itemName"`
+	ItemScore [5]int    `json:"itemScore"`
 }
 
 type RequestCardOver struct {
-	FaceImage string `json:"faceImage"`
-	Status    []Chart         `json:"status"`
+	FaceImage string          `json:"faceImage"`
+	Status    Chart         `json:"status"`
 }
 
 //takashiへのリクエストボディ
 type RequestCardOverNode struct {
 	FaceImage string `json:"faceImage"`
 	FaceImageName string      `json:"faceIconName"`
-	Status    []Chart         `json:"status"`
+	Status     Chart         `json:"status"`
 	StatusImageName string    `json:"chartName"`
 }
 
-func (r RequestCardOverNode) Read(p []byte) (n int, err error) {
-	panic("implement me")
-}
 
-func RequestCardResponse(cardID,faceImage string,status []Chart)RequestCardOverNode{
+func RequestCardResponse(cardID,faceImage string,status Chart)RequestCardOverNode{
 	return RequestCardOverNode{
 		FaceImage :faceImage,
 		FaceImageName : cardID+"_"+"faceImage"+".png",
@@ -33,12 +30,6 @@ func RequestCardResponse(cardID,faceImage string,status []Chart)RequestCardOverN
 
 
 
-
-
-
-func (r RequestCardOver) Read(p []byte) (n int, err error) {
-	panic("implement me")
-}
 
 
 
