@@ -5,6 +5,7 @@ import (
 	"PR-Card_backend/pkg/server/model/dto"
 	"PR-Card_backend/pkg/server/view"
 	"github.com/google/uuid"
+	//"strings"
 
 	//"bytes"
 	"encoding/json"
@@ -154,6 +155,8 @@ func CreateCardOverview() gin.HandlerFunc {
 			)
 			return
 		}
+
+		defer reqBody.Body.Close()
 		//ボディの取得
 		var requestBody view.CreateCardOverResponse
 		if err := json.NewDecoder(resp.Body).Decode(&requestBody); err != nil {

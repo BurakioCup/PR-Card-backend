@@ -12,10 +12,10 @@ type RequestCardOver struct {
 
 //takashiへのリクエストボディ
 type RequestCardOverNode struct {
-	FaceImage string `json:"faceImage"`
-	FaceImageName string      `json:"faceIconName"`
+	FaceImage string        `json:"faceImage"`
+	FaceImageName string     `json:"faceIconName"`
 	Status     Chart         `json:"status"`
-	StatusImageName string    `json:"chartName"`
+	StatusImageName string   `json:"chartName"`
 }
 
 
