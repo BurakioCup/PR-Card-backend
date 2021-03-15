@@ -4,6 +4,8 @@ import (
 	"PR-Card_backend/pkg/server/model/dao"
 	"PR-Card_backend/pkg/server/model/dto"
 	"PR-Card_backend/pkg/server/view"
+	//"bytes"
+	"fmt"
 	"github.com/google/uuid"
 
 	//"bytes"
@@ -142,21 +144,27 @@ func CreateCardOverview() gin.HandlerFunc {
 			)
 			return
 		}
-
 		cardID := uuid.New().String()
-
 		req:=dto.RequestCardResponse(cardID,upr.FaceImage,upr.Status)
-
 		//takashi serverへのPOST処理
-		endpoint := " http://localhost:3000/"
-		reqBody, err := http.NewRequest("POST", endpoint, req)
+		endpoint := "http://localhost:3000/"
+
+		fmt.Println("aa")
+		reqBody, err := http.NewRequest(
+			"POST",
+			endpoint,
+			req,
+		)
+		fmt.Println("bb")
 		if err != nil {
-			//panic("Error")
+			fmt.Println(err)
+			return
 		}
 
 		reqBody.Header.Set("Content-Type", "application/json")
-
-		client := new(http.Client)
+		fmt.Println("aa")
+		//client := new(http.Client)
+		client := &http.Client{}
 		resp, err := client.Do(reqBody)
 		if err != nil {
 			view.ReturnErrorResponse(
