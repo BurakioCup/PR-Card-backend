@@ -6,15 +6,12 @@ import (
 )
 
 type MyCard struct{
-	UserName string
+	NameImage string
 	FaceImage string
-	NickName string
 	StatusImage string
-	Words [4]string
-	FreeText string
+	TagImage string
+	FreeImage string
 }
-
-
 
 type Card struct {
 	CardID    string `json:"cardID"`

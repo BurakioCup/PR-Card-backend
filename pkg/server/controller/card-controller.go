@@ -45,8 +45,8 @@ func ReadMyCardHandler() gin.HandlerFunc {
 			)
 			return
 		}
-		c.JSON(http.StatusOK, view.ReturnReadMyCardResponse(myCard))
-	}
+		c.JSON(http.StatusOK, view.ReturnReadCard(myCard))
+    }
 }
 
 func ReadCardIDHandler() gin.HandlerFunc {

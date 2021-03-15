@@ -9,8 +9,7 @@ import (
 
 const(
 	SelectMyCardID = "SELECT `card_id` FROM `users` WHERE `id` =?;"
-	SelectMyCard = "SELECT `name`,`nick_name`,`face_image`,`status_image`,`free_text` FROM `cards` WHERE `id` = ?;"
-	SelectMyCardWords = "SELECT `word` FROM `card_my_word` WHERE `card_id` = ?"
+	SelectMyCard = "SELECT `name_image`,`face_image`,`status_image`,`tag_image`,`free_image` FROM `cards` WHERE `id` = ?;"
 	ReadAllCardsID = "SELECT `card_id` FROM `owned_cards` WHERE `user_id` = ? "
 	readAllCards = "SELECT `name`,`face_image` FROM `cards` WHERE `id` = ? ;"
 	)
@@ -39,8 +38,7 @@ func (info *readMyCard)Request(userID string)(dto.MyCard,error){
 		log.Println(err)
 		return MyCard, err
 	}
-	getMyCardInfo(cardID)
-	getMyCardWord(cardID)
+	getCardInfo(cardID)
   	return MyCard, err
 }
 
@@ -54,42 +52,16 @@ func MakeReadCardIDClient()readCardID{
 }
 
 func (infom* readCardID)Request(cardID string)(dto.MyCard,error){
-	err := getMyCardInfo(cardID)
-	if err != nil {
-		return MyCard,err
-	}
-	err = getMyCardWord(cardID)
+	err := getCardInfo(cardID)
 	if err != nil {
 		return MyCard,err
 	}
   	return MyCard, err
 }
 
-
-func getMyCardWord(cardID string)error{
-	count := 0
-	rows,err := Conn.Query(SelectMyCardWords, cardID)
-	if err != nil {
-		return err
-	}
-	defer rows.Close()
-	//取得してきた複数(単数)のレコード1つずつ処理
-	for rows.Next() {
-		if err := rows.Scan(&MyCard.Words[count]); err != nil {
-			if err == sql.ErrNoRows {
-				return  nil
-			}
-			log.Println(err)
-			return  err
-		}
-		count++
-	}
-	return nil
-}
-
-func getMyCardInfo(cardID string)error{
+func getCardInfo(cardID string)error{
 	row := Conn.QueryRow(SelectMyCard, cardID)
-	if err := row.Scan(&MyCard.UserName,&MyCard.NickName,&MyCard.FaceImage,&MyCard.StatusImage,&MyCard.FreeText); err != nil {
+	if err := row.Scan(&MyCard.NameImage,&MyCard.FaceImage,&MyCard.StatusImage,&MyCard.TagImage,&MyCard.FreeImage); err != nil {
 		if err == sql.ErrNoRows {
 			return errors.New("Not created cards")
 		}
