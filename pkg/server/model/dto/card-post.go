@@ -25,6 +25,12 @@ type RequestCardOverNode struct {
 }
 
 
+type CreateCardOverResponse struct {
+	//Id          string `json:"id"`
+	FaceImage   string `json:"faceImage"`
+	StatusImage string `json:"statusImage"`
+}
+
 /*
 func (r RequestCardOverNode) Read(p []byte) (n int, err error) {
 	panic("implement me")

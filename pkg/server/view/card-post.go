@@ -19,11 +19,11 @@ type CreateCardOverResponse struct {
 
 
 
-func ReturnCreateCardResponse(faceImage, statusImage string)CreateCardOverResponse{
+func ReturnCreateCardResponse(faceImage, statusImage string)CreateCardOverResponse {
 	return CreateCardOverResponse{
 		//Id: id,
 		FaceImage: faceImage,
 		StatusImage: statusImage,
 	}
-}
 
+}

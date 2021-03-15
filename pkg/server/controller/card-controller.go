@@ -198,8 +198,7 @@ func CreateCardOverview() gin.HandlerFunc {
 		responseBody := view.ReturnCreateCardResponse(requestBody.FaceImage,requestBody.StatusImage)
 		clientCard := dao.MakePostChartClientClient()
 
-
-		responseOverView := clientCard.Request(cardID,responseBody.FaceImage,responseBody.StatusImage)
+		_ = clientCard.Request(cardID, responseBody.FaceImage, responseBody.StatusImage)
 		if err != nil {
 			log.Println(err)
 			view.ReturnErrorResponse(
@@ -210,7 +209,7 @@ func CreateCardOverview() gin.HandlerFunc {
 			)
 			return
 		}
-		c.JSON(http.StatusOK, responseOverView)
+		c.JSON(http.StatusOK, view.ReturnCreateCardResponse(responseBody.FaceImage,responseBody.StatusImage))
 	}
 }
 
