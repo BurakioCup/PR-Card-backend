@@ -1,12 +1,14 @@
 package dto
 
-type RequestItem struct {
-	ItemName  string `json:"itemName"`
-	ItemScore int    `json:"itemScore"`
+import "encoding/base64"
+
+
+type Chart struct{
+	ItemName  []string      `json:"itemName"`
+	ItemScore []int     `json:"itemScore"`
 }
 
 type RequestCardOver struct {
-	UserName  string        `json:"userName"`
-	FaceImage string        `json:"faceImage"`
-	Status    []RequestItem `json:"status"`
+	FaceImage base64.Encoding        `json:"faceImage"`
+    Status    []Chart                `json:"status"`
 }
