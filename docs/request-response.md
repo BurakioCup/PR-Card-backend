@@ -1,8 +1,8 @@
 # Request&Response
 
 ### sign/up
-- request
-header
+- request  
+header  
 ```cassandraql
 userID:""
 pass:""
@@ -16,8 +16,8 @@ pass:""
 ```
 
 ### sign/in
-- request
-header
+- request  
+header  
 ```cassandraql
 loginID:""
 ```
@@ -29,8 +29,8 @@ loginID:""
 ```
 
 ### read/all
-- request
-header
+- request  
+header  
 ```cassandraql
 token:""
 ```
@@ -58,8 +58,8 @@ token:""
 ```
 
 ### read/qr
-- request
-header
+- request  
+header  
 ```cassandraql
 token:""
 ```
@@ -71,12 +71,12 @@ token:""
 ```
 
 ### read?cardID=a
-- request
-params
+- request  
+params  
 ```cassandraql
 cardID:""
 ```
-header
+header  
 ```cassandraql
 token:""
 ```
@@ -92,8 +92,8 @@ token:""
 ```
 
 ### read/myCard
-- request
-header
+- request  
+header  
 ```cassandraql
 token:""
 ```
