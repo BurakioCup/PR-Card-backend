@@ -44,7 +44,7 @@ func (r RequestCardOver) Read(p []byte) (n int, err error) {
 	panic("implement me")
 }
 
-type CardCardDetailRequest struct{
+type CardDetailRequest struct{
 	UserName UserName `userName`
 	NickName string `nickName`
 	HashTags HashTags `hashTags`

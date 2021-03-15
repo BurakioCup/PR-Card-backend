@@ -232,7 +232,7 @@ func UpdateCard() gin.HandlerFunc {
 		}
 
 		//リクエストボディを取得
-		var req dto.CardCardDetailRequest
+		var req dto.CardDetailRequest
 		if err := c.BindJSON(&req); err != nil {
 			view.ReturnErrorResponse(
 				c,
@@ -276,7 +276,7 @@ func UpdateCard() gin.HandlerFunc {
 			return
 		}
 		//ボディの取得
-		var requestBody view.CreateCardDetailsResponse
+		var requestBody view.CardDetailsResponse
 		if err := json.NewDecoder(resp.Body).Decode(&requestBody); err != nil {
 			view.ReturnErrorResponse(
 				c,
@@ -287,12 +287,8 @@ func UpdateCard() gin.HandlerFunc {
 			return
 		}
 
-
-		responseBody := view.(requestBody.FaceImage,requestBody.StatusImage)
-
-		clientCard := dao.MakePostChartClientClient()
-
-		_ = clientCard.Request(cardID, responseBody.FaceImage, responseBody.StatusImage)
+		DBclient := dao.MakeCreateDetailClient()
+		_ = DBclient.Request(userID,requestBody.NameImage,requestBody.TagImage,requestBody.FreeImage)
 		if err != nil {
 			log.Println(err)
 			view.ReturnErrorResponse(
@@ -303,8 +299,7 @@ func UpdateCard() gin.HandlerFunc {
 			)
 			return
 		}
-		////////////////
+		c.JSON(http.StatusOK, requestBody)
 
-		c.JSON(http.StatusOK, "")
 	}
 }

@@ -28,12 +28,12 @@ func ReturnCreateCardResponse(faceImage, statusImage string)CreateCardOverRespon
 
 }
 
-type CreateCardDetailsResponse struct {
+type CardDetailsResponse struct {
 	NameImage string `json:"nameImage"`
 	TagImage string `json:"tagImage"`
 	FreeImage string `json:"freeImage"`
 }
 
-func ReturnCreateCardDetailsResponse(a dto.CardDetailRequest){
+func ReturnCreateCardDetailsResponse(a CardDetailsResponse)CardDetailsResponse{
 
 }
