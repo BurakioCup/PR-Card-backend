@@ -107,20 +107,6 @@ func ReadAllHandler() gin.HandlerFunc {
 	}
 }
 
-func ReadCardHandler() gin.HandlerFunc {
-	return func(c *gin.Context) {
-
-		c.JSON(http.StatusOK, "")
-	}
-}
-
-func ReadMycardHandler() gin.HandlerFunc {
-	return func(c *gin.Context) {
-
-		c.JSON(http.StatusOK, "")
-	}
-}
-
 func CreateCardOverview() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userID := c.GetString("userID")
