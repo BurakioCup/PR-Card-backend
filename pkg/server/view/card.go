@@ -21,7 +21,7 @@ type ReadCardResponse struct{
 	UserName string `json:"userName"`
 	FaceImage string `json:"faceImage"`
 	NickName string `json:"nickName"`
-	StatusImage string `json"statusImage"`
+	StatusImage string `json:"statusImage"`
 	Words [4]string `json:"words"`
 	FreeText string `json:"freeText"`
 }
