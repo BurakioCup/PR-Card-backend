@@ -4,9 +4,12 @@ import (
 	"PR-Card_backend/pkg/server/model/dao"
 	"PR-Card_backend/pkg/server/model/dto"
 	"PR-Card_backend/pkg/server/view"
+	//"bytes"
+	"encoding/json"
+	//"io/ioutil"
 	"log"
 	"net/http"
-	"net/http/cookiejar"
+	//"net/http/cookiejar"
 
 	"github.com/gin-gonic/gin"
 )
@@ -139,24 +142,55 @@ func CreateCardOverview() gin.HandlerFunc {
 		}
 
 		//takashi serverへのPOST処理
+		endpoint := " http://localhost:3000/"
+		req, err := http.NewRequest("POST", endpoint, upr)
+		if err != nil {
+			//panic("Error")
+		}
+
+		req.Header.Set("Content-Type", "application/json")
+
+		client := new(http.Client)
+		resp, err := client.Do(req)
+		if err != nil {
+			view.ReturnErrorResponse(
+				c,
+				http.StatusBadRequest,
+				"Bad Request",
+				"RequestBody is empty",
+			)
+			return
+		}
+		//ボディの取得
+		var requestBody view.CreateCardOverResponse
+		if err := json.NewDecoder(resp.Body).Decode(&requestBody); err != nil {
+			view.ReturnErrorResponse(
+				c,
+				http.StatusBadRequest,
+				"Bad Request",
+				"RequestBody is empty",
+			)
+			return
+		}
 
 
 
-		clientCard := dao.MakePostCardClientClient()
+		responseBody := view.ReturnCreateCardResponse(requestBody.FaceImage,requestBody.StatusImage)
+		clientCard := dao.MakePostChartClientClient()
 
 
-		err := clientCard.Request(userID, upr.FaceImage)
+		responseOverView := clientCard.Request(responseBody.FaceImage,responseBody.StatusImage)
 		if err != nil {
 			log.Println(err)
 			view.ReturnErrorResponse(
 				c,
 				http.StatusInternalServerError,
 				"Internal Server Error",
-				"Failed to card info",
+				"Failed to get MyCard info",
 			)
 			return
 		}
-		c.JSON(http.StatusOK, "hey guys")
+		c.JSON(http.StatusOK, responseOverView )
 	}
 }
 

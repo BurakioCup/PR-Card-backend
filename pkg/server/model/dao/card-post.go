@@ -16,6 +16,7 @@ func MakePostChartClientClient() createChart {
 func (info *createChart) Request(face_image, status_image string) error {
 
 	id := uuid.New()
+
 	stmt, err := Conn.Prepare(InsertcardInfoQuery)
 	if err != nil {
 		return err
