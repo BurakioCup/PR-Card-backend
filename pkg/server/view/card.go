@@ -8,6 +8,15 @@ type ReadAllResponse struct {
   Cards *[]dto.Card `json:"cards"`
 }
 
+type ReadMyCardResponse struct{
+	UserName string `json:"userName"`
+	FaceImage string `json:"faceImage"`
+	NickName string `json:"nickName"`
+	StatusImage string `json:"statusImage"`
+	Words [4]string `json:"words"`
+	FreeText string `json:"freeText"`
+}
+
 type ReadCardResponse struct{
 	NameImage string `json:"nameImage"`
 	FaceImage string `json:"faceImage"`
