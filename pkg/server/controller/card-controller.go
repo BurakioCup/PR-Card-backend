@@ -212,8 +212,88 @@ func CreateCardOverview() gin.HandlerFunc {
 
 func CreateCardDetails() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		userID := c.GetString("userID")
+		if userID == "" {
+			log.Println("[ERROR] userID is empty")
+			view.ReturnErrorResponse(
+				c,
+				http.StatusInternalServerError,
+				"InternalServerError",
+				"userID is empty",
+			)
+			return
+		}
 
-		c.JSON(http.StatusOK, "")
+		//リクエストボディを取得
+		var req dto.CardDetailRequest
+		if err := c.BindJSON(&req); err != nil {
+			view.ReturnErrorResponse(
+				c,
+				http.StatusBadRequest,
+				"Bad Request",
+				"RequestBody is empty",
+			)
+			return
+		}
+
+		////////////////
+		//takashi serverへのPOST処理
+		// TODO 下記endpoint変更
+		endpoint := "http://localhost:3000/"
+
+		b, _ := json.Marshal(req)
+
+		reqBody, err := http.NewRequest(
+			"PUT",
+			endpoint,
+			bytes.NewBuffer(b),
+		)
+
+		if err != nil {
+			log.Println(err)
+			return
+		}
+
+		reqBody.Header.Set("Content-Type", "application/json")
+
+		client := &http.Client{}
+		resp, err := client.Do(reqBody)
+
+		if err != nil {
+			view.ReturnErrorResponse(
+				c,
+				http.StatusBadRequest,
+				"Bad Request",
+				"RequestBody is empty",
+			)
+			return
+		}
+		//ボディの取得
+		var requestBody view.CardDetailsResponse
+		if err := json.NewDecoder(resp.Body).Decode(&requestBody); err != nil {
+			view.ReturnErrorResponse(
+				c,
+				http.StatusBadRequest,
+				"Bad Request",
+				"RequestBody is empty",
+			)
+			return
+		}
+
+		DBclient := dao.MakeCreateDetailClient()
+		_ = DBclient.Request(userID,requestBody.NameImage,requestBody.TagImage,requestBody.FreeImage)
+		if err != nil {
+			log.Println(err)
+			view.ReturnErrorResponse(
+				c,
+				http.StatusInternalServerError,
+				"Internal Server Error",
+				"Failed to get MyCard info",
+			)
+			return
+		}
+		c.JSON(http.StatusOK, requestBody)
+
 	}
 }
 

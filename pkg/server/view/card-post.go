@@ -27,3 +27,8 @@ func ReturnCreateCardResponse(faceImage, statusImage string)CreateCardOverRespon
 	}
 
 }
+type CardDetailsResponse struct {
+	NameImage string `json:"nameImage"`
+	TagImage string `json:"tagImage"`
+	FreeImage string `json:"freeImage"`
+}
