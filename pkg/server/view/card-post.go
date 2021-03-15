@@ -1,5 +1,7 @@
 package view
 
+import "PR-Card_backend/pkg/server/model/dto"
+
 type CreateCardResponse struct {
 	Id          string `json:"id"`
 	UserName    string `json:"userName"`
@@ -17,13 +19,21 @@ type CreateCardOverResponse struct {
 	StatusImage string `json:"statusImage"`
 }
 
-
-
 func ReturnCreateCardResponse(faceImage, statusImage string)CreateCardOverResponse {
 	return CreateCardOverResponse{
 		//Id: id,
 		FaceImage: faceImage,
 		StatusImage: statusImage,
 	}
+
+}
+
+type CreateCardDetailsResponse struct {
+	NameImage string `json:"nameImage"`
+	TagImage string `json:"tagImage"`
+	FreeImage string `json:"freeImage"`
+}
+
+func ReturnCreateCardDetailsResponse(a dto.CardDetailRequest){
 
 }

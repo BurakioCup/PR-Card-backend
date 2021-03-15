@@ -31,13 +31,6 @@ type CreateCardOverResponse struct {
 	StatusImage string `json:"statusImage"`
 }
 
-/*
-func (r RequestCardOverNode) Read(p []byte) (n int, err error) {
-	panic("implement me")
-}
-
- */
-
 func RequestCardResponse(cardID,faceImage string,status Chart)RequestCardOverNode{
 	return RequestCardOverNode{
 		FaceImage :faceImage,
@@ -47,14 +40,21 @@ func RequestCardResponse(cardID,faceImage string,status Chart)RequestCardOverNod
 	}
 }
 
-
-
-
-
-
 func (r RequestCardOver) Read(p []byte) (n int, err error) {
 	panic("implement me")
 }
 
+type CardCardDetailRequest struct{
+	UserName UserName `userName`
+	NickName string `nickName`
+	HashTags HashTags `hashTags`
+	FreeText string `freeText`
+}
 
-
+type UserName struct{
+	Name string `name`
+	NickName string `nickName`
+}
+type HashTags struct {
+	Tag [4]string `Tag`
+}
