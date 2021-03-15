@@ -9,9 +9,8 @@ USE `pr_card`;
 ---- drop ----
 DROP TABLE IF EXISTS `users`;
 DROP TABLE IF EXISTS `cards`;
-DROP TABLE IF EXISTS `card_matrixs`;
-DROP TABLE IF EXISTS `card_my_word`;
 DROP TABLE IF EXISTS `owned_cards`;
+DROP TABLE IF EXISTS `card_qrs`;
 
 ---- create ----
 CREATE TABLE IF NOT EXISTS `pr_card`.`users` (
@@ -27,37 +26,17 @@ COMMENT = 'アカウント情報を保存';
 
 CREATE TABLE IF NOT EXISTS `pr_card`.`cards` (
 `id` VARCHAR(64) NOT NULL COMMENT 'カード識別ID',
-`name` VARCHAR(32) NOT NULL COMMENT 'ユーザ名',
-`nick_name` VARCHAR(32) COMMENT 'ニックネーム',
+`name` VARCHAR(32) NOT NULL COMMENT '名前',
+`name_image` VARCHAR(64) COMMENT '名前画像のパス',
+`tag_image` VARCHAR(64) COMMENT 'タグ画像のパス',
 `face_image` VARCHAR(64) COMMENT '顔画像のパス',
 `status_image` VARCHAR(64) COMMENT 'ステータス画像のパス',
-`free_text` TEXT COMMENT '自由記述欄',
+`free_image` TEXT COMMENT '自由記述欄の画像パス',
 PRIMARY KEY (`id`),
 INDEX idx_auth_token (`id` ASC)
 )
 ENGINE = InnoDB
 COMMENT = '名刺の要素を保存';
-
-CREATE TABLE IF NOT EXISTS `pr_card`.`card_matrixs` (
-`id` VARCHAR(64) NOT NULL COMMENT '識別ID',
-`card_id` VARCHAR(64) NOT NULL COMMENT 'カード識別ID',
-`item` VARCHAR(64) COMMENT '項目名',
-`socre` INT COMMENT 'スコア',
-PRIMARY KEY (`id`),
-INDEX `idx_auth_token` (`id` ASC)
-)
-ENGINE = InnoDB
-COMMENT = '名刺のグラフ部分の要素を保存';
-
-CREATE TABLE IF NOT EXISTS `pr_card`.`card_my_word` (
-`id` VARCHAR(64) NOT NULL COMMENT '識別ID',
-`card_id` VARCHAR(64) NOT NULL COMMENT 'カード識別ID',
-`word` VARCHAR(64) COMMENT '自分を表す単語',
-PRIMARY KEY (`id`),
-INDEX `idx_auth_token` (`id` ASC)
-)
-ENGINE = InnoDB
-COMMENT = '名刺の自分を表すワードを保存';
 
 CREATE TABLE IF NOT EXISTS `pr_card`.`owned_cards` (
 `id` VARCHAR(64) NOT NULL COMMENT '識別ID',
@@ -78,10 +57,6 @@ COMMENT = 'カードのQRコードののURLを保存';
 
 -- insert --
 INSERT INTO `users` VALUES ("a","a","uuid");
-INSERT INTO `cards` VALUES ("a","token","takashi","https://","https://","こんにちわ、西川です。");
-INSERT INTO `cards` VALUES ("b","a","taketo","https://","https://","こんにちわ、若松です。");
-INSERT INTO `cards` VALUES ("c","b","osaki","https://","https://","こんにちわ、大崎です。");
-INSERT INTO `cards` VALUES ("d","taketo","take","https://","https://","自由記述欄");
 
 INSERT INTO `card_my_word` VALUES ("1","a","sample1");
 INSERT INTO `card_my_word` VALUES ("2","a","sample2");
