@@ -22,7 +22,6 @@ var DBConnectionInfo string
 func Init() error {
 	var err error
 	DBConnectionInfo = configs.GetDBConnectionInfo()
-	fmt.Println(DBConnectionInfo)
 	if err = createDBConnection(); err != nil {
 		if err = dbConnectionBackoff(); err != nil {
 			return err
