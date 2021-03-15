@@ -12,7 +12,7 @@ type ReadCardResponse struct{
 	NameImage string `json:"nameImage"`
 	FaceImage string `json:"faceImage"`
 	TagImage string `json:"tagImage"`
-	StatusImage string `json"statusImage"`
+	StatusImage string `json:"statusImage"`
 	FreeImage string `json:"freeImage"`
 }
 

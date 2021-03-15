@@ -16,7 +16,7 @@
 ```
 
 ### read/all
-```
+```cassandraql
 {
     "cards": [
         {
@@ -51,7 +51,7 @@
     "nameImage": "http",
     "faceImage": "http",
     "tagImage": "http",
-    "StatusImage": "http",
+    "statusImage": "http",
     "freeImage": "http"
 }
 ```
@@ -62,7 +62,7 @@
     "nameImage": "http",
     "faceImage": "http",
     "tagImage": "http",
-    "StatusImage": "http",
+    "statusImage": "http",
     "freeImage": "http"
 }
 ```
