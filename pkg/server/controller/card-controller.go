@@ -6,43 +6,44 @@ import (
 	"PR-Card_backend/pkg/server/view"
 	"log"
 	"net/http"
+	"net/http/cookiejar"
 
 	"github.com/gin-gonic/gin"
 )
 
-func ReadMyCardHandler()gin.HandlerFunc{
+func ReadMyCardHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userID := c.GetString("userID")
-		if userID==""{
+		if userID == "" {
 			log.Println("[ERROR] userID is empty")
-      view.ReturnErrorResponse(
+			view.ReturnErrorResponse(
 				c,
 				http.StatusInternalServerError,
 				"InternalServerError",
-        "userID is empty",
+				"userID is empty",
 			)
 			return
 		}
 		client := dao.MakeReadMyCardClient()
-		myCard,err := client.Request(userID)
-		if err!=nil{
+		myCard, err := client.Request(userID)
+		if err != nil {
 			log.Println(err)
-      view.ReturnErrorResponse(
+			view.ReturnErrorResponse(
 				c,
 				http.StatusInternalServerError,
 				"Internal Server Error",
-        "Failed to get MyCard info",
+				"Failed to get MyCard info",
 			)
 			return
 		}
 		c.JSON(http.StatusOK, view.ReturnReadMyCardResponse(myCard))
-    }
+	}
 }
-      
-func ReadCardIDHandler()gin.HandlerFunc{
+
+func ReadCardIDHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		cardID := c.Query("cardID")
-		if cardID==""{
+		if cardID == "" {
 			log.Println("[ERROR] cardID is empty")
 			view.ReturnErrorResponse(
 				c,
@@ -53,14 +54,14 @@ func ReadCardIDHandler()gin.HandlerFunc{
 			return
 		}
 		client := dao.MakeReadCardIDClient()
-		card,err := client.Request(cardID)
-		if err!=nil {
-      log.Println(err)
+		card, err := client.Request(cardID)
+		if err != nil {
+			log.Println(err)
 			view.ReturnErrorResponse(
 				c,
 				http.StatusInternalServerError,
 				"Internal Server Error",
-        "Failed to get Card infomation",
+				"Failed to get Card infomation",
 			)
 			return
 		}
@@ -97,15 +98,14 @@ func ReadAllHandler() gin.HandlerFunc {
 	}
 }
 
-
-func ReadCardHandler()gin.HandlerFunc{
+func ReadCardHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 
 		c.JSON(http.StatusOK, "")
 	}
 }
 
-func ReadMycardHandler()gin.HandlerFunc{
+func ReadMycardHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 
 		c.JSON(http.StatusOK, "")
@@ -137,11 +137,16 @@ func CreateCardOverview() gin.HandlerFunc {
 			)
 			return
 		}
+
+		//takashi serverへのPOST処理
+
+
+
 		clientCard := dao.MakePostCardClientClient()
 		clientChart := dao.MakePostChartClientClient()
 
 		for _, i := range upr.Status {
-			err := clientChart.Request(i.ItemName, i.ItemScore)
+			err := clientChart.Request()
 			if err != nil {
 				log.Println(err)
 				view.ReturnErrorResponse(
@@ -153,7 +158,7 @@ func CreateCardOverview() gin.HandlerFunc {
 				return
 			}
 		}
-		err := clientCard.Request(userID, upr.UserName, upr.FaceImage)
+		err := clientCard.Request(userID, upr.FaceImage)
 		if err != nil {
 			log.Println(err)
 			view.ReturnErrorResponse(
