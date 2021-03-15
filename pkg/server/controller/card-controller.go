@@ -143,21 +143,8 @@ func CreateCardOverview() gin.HandlerFunc {
 
 
 		clientCard := dao.MakePostCardClientClient()
-		clientChart := dao.MakePostChartClientClient()
 
-		for _, i := range upr.Status {
-			err := clientChart.Request()
-			if err != nil {
-				log.Println(err)
-				view.ReturnErrorResponse(
-					c,
-					http.StatusInternalServerError,
-					"Internal Server Error",
-					"Failed to chart info",
-				)
-				return
-			}
-		}
+
 		err := clientCard.Request(userID, upr.FaceImage)
 		if err != nil {
 			log.Println(err)
