@@ -152,25 +152,24 @@ func CreateCardOverview() gin.HandlerFunc {
 		endpoint := "http://localhost:3000/newIconChart"
 
 		b, _ := json.Marshal(req)
-		fmt.Println("aa")
+
 		reqBody, err := http.NewRequest(
 			"POST",
 			endpoint,
 			bytes.NewBuffer(b),
 		)
-		fmt.Println("bb")
+
 		if err != nil {
 			fmt.Println(err)
 			return
 		}
-		fmt.Println("aabb")
+
 		reqBody.Header.Set("Content-Type", "application/json")
-		fmt.Println("aacc")
+
 		//client := new(http.Client)
 		client := &http.Client{}
-		fmt.Println(reqBody)
 		resp, err := client.Do(reqBody)
-		fmt.Println("aa")
+
 		if err != nil {
 			view.ReturnErrorResponse(
 				c,
@@ -180,7 +179,6 @@ func CreateCardOverview() gin.HandlerFunc {
 			)
 			return
 		}
-		fmt.Println("あ")
 		//ボディの取得
 		var requestBody view.CreateCardOverResponse
 		if err := json.NewDecoder(resp.Body).Decode(&requestBody); err != nil {
@@ -192,7 +190,6 @@ func CreateCardOverview() gin.HandlerFunc {
 			)
 			return
 		}
-		fmt.Println(requestBody)
 
 
 		responseBody := view.ReturnCreateCardResponse(requestBody.FaceImage,requestBody.StatusImage)
