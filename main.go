@@ -13,7 +13,6 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-
 	//サーバを起動
 	addr := configs.GetServerPort()
 	server.Server.Run(addr)
