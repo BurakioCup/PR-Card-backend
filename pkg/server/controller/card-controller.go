@@ -225,8 +225,8 @@ func CreateCardDetails() gin.HandlerFunc {
 		}
 
 		//リクエストボディを取得
-		var req dto.CardDetailRequest
-		if err := c.BindJSON(&req); err != nil {
+		var cdr dto.CardDetailRequest
+		if err := c.BindJSON(&cdr); err != nil {
 			view.ReturnErrorResponse(
 				c,
 				http.StatusBadRequest,
@@ -236,10 +236,13 @@ func CreateCardDetails() gin.HandlerFunc {
 			return
 		}
 
+		cardID := uuid.New().String()
+		req:=dto.RequestCardDetailsResponse(cdr.UserName,cardID,cdr.FreeText,cdr.HashTags)
+
 		////////////////
 		//takashi serverへのPOST処理
 		// TODO 下記endpoint変更
-		endpoint := "http://localhost:3000/"
+		endpoint := "https://us-central1-prcard-ae898.cloudfunctions.net/PR_card/createNameTexts"
 
 		b, _ := json.Marshal(req)
 
