@@ -48,15 +48,6 @@ INDEX `idx_auth_token` (`id` ASC)
 ENGINE = InnoDB
 COMMENT = 'どのユーザがどの名刺をもつか保存';
 
-CREATE TABLE IF NOT EXISTS `pr_card`.`card_qrs` (
-`card_id` VARCHAR(32) NOT NULL COMMENT 'カード識別ID',
-`card_image` VARCHAR(256) NOT NULL COMMENT 'qrコードURL',
-PRIMARY KEY (`card_id`),
-INDEX `idx_auth_token` (`card_id` ASC)
-)
-ENGINE = InnoDB
-COMMENT = 'カードのQRコードののURLを保存';
-
 -- insert --
 INSERT INTO `users` VALUES ("a","a","uuid");
 
@@ -72,4 +63,3 @@ INSERT INTO `owned_cards` VALUES ("1","b","e");
 INSERT INTO `owned_cards` VALUES ("1","b","f");
 INSERT INTO `owned_cards` VALUES ("1","a","g");
 INSERT INTO `users` values ("a","a","a","a");
-INSERT INTO `card_qrs` values ("a","https://qrコードだよー");

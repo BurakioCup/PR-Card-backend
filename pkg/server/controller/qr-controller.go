@@ -2,7 +2,6 @@ package controller
 
 import (
 	"PR-Card_backend/pkg/qr"
-	//"PR-Card_backend/pkg/server/model/dao"
 	"PR-Card_backend/pkg/util"
 	"PR-Card_backend/pkg/server/view"
 	"github.com/gin-gonic/gin"
