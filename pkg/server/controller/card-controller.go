@@ -6,11 +6,11 @@ import (
 	"PR-Card_backend/pkg/server/view"
 	"PR-Card_backend/pkg/util"
 	"bytes"
-	"github.com/google/uuid"
 	"encoding/json"
+	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"log"
 	"net/http"
-	"github.com/gin-gonic/gin"
 )
 
 func ReadMyCardHandler() gin.HandlerFunc {
