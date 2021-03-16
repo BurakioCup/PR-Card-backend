@@ -46,7 +46,7 @@ func (r RequestCardOver) Read(p []byte) (n int, err error) {
 
 type CardDetailRequest struct{
 	UserName UserName `json:"userName"`
-	HashTags HashTags `json:"hashTags"`
+	HashTags [4]string `json:"hashTags"`
 	FreeText string `json:"freeText"`
 }
 
@@ -55,14 +55,10 @@ type UserName struct{
 	NickName string `json:"nickName"`
 }
 
-type HashTags struct {
-	Tag [4]string `json:"tag"`
-}
-
 type CardDetailNode struct{
 	UserName UserName `json:"userName"`
 	UserNameFileN string `json:"userNameFileN"`
-	HashTags HashTags `json:"hashTags"`
+	HashTags [4]string `json:"hashTags"`
 	HashTagsFileN string `json:"hashTagsFileN"`
 	FreeText string `json:"freeText"`
 	FreeTextFileN string `json:"freeTextFileN"`

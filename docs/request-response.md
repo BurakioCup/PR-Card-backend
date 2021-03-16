@@ -107,3 +107,29 @@ token:""
     "freeImage": "http"
 }
 ```
+
+### /update/card
+- request
+header
+```cassandraql
+token:""
+```
+body
+```cassandraql
+{
+  "userName": {
+      "name": "taketo",
+      "nickName": "takechan"
+   },
+  "hashTags":["真面目","お酒","テニス","漫画"],
+  "freeText": "初めまして！！！"
+}
+```
+- response
+```cassandraql
+{
+    "nameImage": "https://firebasestorage.googleapis.com/v0/b/prcard-ae898.appspot.com/o/text%2Fa_nameImage.png?alt=media",
+    "tagImage": "https://firebasestorage.googleapis.com/v0/b/prcard-ae898.appspot.com/o/text%2Fa_tagImage.png?alt=media",
+    "freeImage": "https://firebasestorage.googleapis.com/v0/b/prcard-ae898.appspot.com/o/text%2Fa_freeImage.png?alt=media"
+}
+```
