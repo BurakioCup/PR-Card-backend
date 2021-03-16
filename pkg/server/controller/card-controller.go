@@ -149,7 +149,7 @@ func CreateCardOverview() gin.HandlerFunc {
 		cardID := uuid.New().String()
 		req:=dto.RequestCardResponse(cardID,upr.FaceImage,upr.Status)
 		//takashi serverへのPOST処理
-		endpoint := "http://localhost:3000/newIconChart"
+		endpoint := "https://us-central1-prcard-ae898.cloudfunctions.net/api/newIconChart"
 
 		b, _ := json.Marshal(req)
 

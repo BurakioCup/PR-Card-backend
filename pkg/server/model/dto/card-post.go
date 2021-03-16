@@ -58,7 +58,6 @@ func (r RequestCardOver) Read(p []byte) (n int, err error) {
 
 type CardDetailRequest struct{
 	UserName UserName `json:"userName"`
-	NickName string `json:"nickName"`
 	HashTags HashTags `json:"hashTags"`
 	FreeText string `json:"freeText"`
 }
@@ -71,5 +70,23 @@ type HashTags struct {
 	Tag [4]string `json:"tag"`
 }
 
+
+//takashiへのリクエストボディ
+type RequestCardDetailsNode struct {
+	UserName UserName `json:"userName"`
+	UserFileName string  `json:"userNameFileN"`
+	NickName string `json:"nickName"`
+	HashTags HashTags `json:"hashTags"`
+	FreeText string `json:"freeText"`
+}
+
+func RequestCardDetailsResponse(cardID,faceImage string,status Chart)RequestCardDetailsNode{
+	return RequestCardDetailsNode{
+		FaceImage :faceImage,
+		FaceImageName : cardID+"_"+"faceImage"+".png",
+		Status  : status,
+		StatusImageName:cardID+"_"+"statusImage"+".png",
+	}
+}
 
 
