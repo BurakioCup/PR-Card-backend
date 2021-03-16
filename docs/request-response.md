@@ -108,7 +108,7 @@ token:""
 }
 ```
 
-### /update/card
+### /create/card/details
 - request
 header
 ```cassandraql
