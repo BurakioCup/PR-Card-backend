@@ -282,7 +282,7 @@ func CreateCardDetails() gin.HandlerFunc {
 		}
 
 		DBclient := dao.MakeCreateDetailClient()
-		_ = DBclient.Request(userID,requestBody.NameImage,requestBody.TagImage,requestBody.FreeImage)
+		_ = DBclient.Request(userID,req.UserName.Name,requestBody.NameImage,requestBody.TagImage,requestBody.FreeImage)
 		if err != nil {
 			log.Println(err)
 			view.ReturnErrorResponse(
