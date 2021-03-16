@@ -4,19 +4,12 @@ import (
 	"PR-Card_backend/pkg/server/model/dao"
 	"PR-Card_backend/pkg/server/model/dto"
 	"PR-Card_backend/pkg/server/view"
+	"PR-Card_backend/pkg/util"
 	"bytes"
-
-	//"bytes"
-	"fmt"
 	"github.com/google/uuid"
-
-	//"bytes"
 	"encoding/json"
-	//"io/ioutil"
 	"log"
 	"net/http"
-	//"net/http/cookiejar"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -146,7 +139,7 @@ func CreateCardOverview() gin.HandlerFunc {
 		)
 
 		if err != nil {
-			fmt.Println(err)
+			log.Println(err)
 			return
 		}
 
@@ -216,28 +209,37 @@ func UpdateCard() gin.HandlerFunc {
 			)
 			return
 		}
-
 		//リクエストボディを取得
 		var req dto.CardDetailRequest
 		if err := c.BindJSON(&req); err != nil {
+			log.Println(err)
 			view.ReturnErrorResponse(
 				c,
 				http.StatusBadRequest,
 				"Bad Request",
-				"RequestBody is empty",
+				"RequestBody is error",
 			)
 			return
 		}
-
-		////////////////
+		cardID,err := util.GetCardID(userID)
+		if err != nil {
+			view.ReturnErrorResponse(
+				c,
+				http.StatusInternalServerError,
+				"InternalServerErro",
+				"get cardID is failed",
+			)
+			return
+		}
+		reqNode:=dto.RequestCardDetailResponse(cardID,req)
 		//takashi serverへのPOST処理
 		// TODO 下記endpoint変更
-		endpoint := "http://localhost:3000/"
+		endpoint := "https://us-central1-prcard-ae898.cloudfunctions.net/PR_card/createNameTexts"
 
-		b, _ := json.Marshal(req)
+		b, _ := json.Marshal(reqNode)
 
 		reqBody, err := http.NewRequest(
-			"PUT",
+			"POST",
 			endpoint,
 			bytes.NewBuffer(b),
 		)
@@ -251,13 +253,12 @@ func UpdateCard() gin.HandlerFunc {
 
 		client := &http.Client{}
 		resp, err := client.Do(reqBody)
-
 		if err != nil {
 			view.ReturnErrorResponse(
 				c,
 				http.StatusBadRequest,
 				"Bad Request",
-				"RequestBody is empty",
+				"ResponseBody is empty",
 			)
 			return
 		}
