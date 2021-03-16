@@ -16,8 +16,6 @@ const(
 	)
 
 var (
-	Cards []dto.Card
-	Card *dto.Card
 	DetailCard dto.DetailCard
 	MyCard dto.MyCard
 )
@@ -82,32 +80,34 @@ func MakeReadAllClient() raedAll {
 }
 
 func (info *raedAll) Request(userID string) ([]dto.Card, error) {
-	err := getListCardIDs(userID)
+	var Cards []dto.Card
+	Cards,err := getListCardIDs(userID)
 	if err != nil {
 		return nil, err
 	}
-	err = getCards()
+	err = getCards(Cards)
 	return Cards, nil
 }
 
-func getListCardIDs(userID string)error{
+func getListCardIDs(userID string)([]dto.Card,error){
+	var cards []dto.Card
 	rows, err := Conn.Query(ReadAllCardsID, userID)
 	if err != nil {
-		return err
+		return nil,err
 	}
 	defer rows.Close()
 	//取得してきた複数(単数)のレコード1つずつ処理
 	for rows.Next() {
-		Card, err = dto.ConvertToCard(rows)
+		Card, err := dto.ConvertToCard(rows)
 		if err != nil {
-			return err
+			return nil,err
 		}
-		Cards = append(Cards, *Card)
+		cards = append(cards, *Card)
 	}
-	return err
+	return cards,err
 }
 
-func getCards() error {
+func getCards(Cards []dto.Card) error {
 	for i := 0; i < len(Cards); i++ {
 		row := Conn.QueryRow(readAllCards, Cards[i].CardID)
 		if err := row.Scan(&Cards[i].UserName,&Cards[i].FaceImage); err != nil {
