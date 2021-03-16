@@ -1,7 +1,7 @@
 package dao
 
 const (
-	InsertcardInfoQuery    = "INSERT INTO `cards` (id,face_image,status_image) VALUES (?,?,?)"
+	InsertcardInfoQuery = "INSERT INTO `cards` (`id`,`face_image`,`status_image`) VALUES (?,?,?)"
 	UpdatUserInfo = "UPDATE users SET card_id = ? WHERE id = ?"
 )
 

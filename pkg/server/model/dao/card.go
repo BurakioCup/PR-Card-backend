@@ -12,7 +12,7 @@ const(
 	SelectMyCard = "SELECT `name`,`name_image`,`face_image`,`status_image`,`tag_image`,`free_image` FROM `cards` WHERE `id` = ?;"
 	ReadAllCardsID = "SELECT `card_id` FROM `owned_cards` WHERE `user_id` = ? "
 	readAllCards = "SELECT `name`,`face_image` FROM `cards` WHERE `id` = ? ;"
-	UpdatCardDetailInfo = "UPDATE `cards` SET `name_image`= ?,`tag_image`=?,`free_image`=? WHERE `id`=?;"
+	UpdateCardDetailInfo = "UPDATE `cards` SET `name`=?,`name_image`= ?,`tag_image`=?,`free_image`=? WHERE `id`=?;"
 	)
 
 var (
@@ -33,6 +33,7 @@ func (info *readMyCard)Request(userID string)(dto.DetailCard,error){
 	row := Conn.QueryRow(SelectMyCardID, userID)
 	if err = row.Scan(&cardID); err != nil {
 		if err == sql.ErrNoRows {
+			return DetailCard, errors.New("Not created cards")
 			return DetailCard, errors.New("Not created cards")
 		}
 		log.Println(err)
@@ -128,7 +129,7 @@ func MakeCreateDetailClient() CreateDetail {
 	return CreateDetail{}
 }
 
-func (info *CreateDetail) Request(userID,nameImage,tagImage,freeImage string) error {
+func (info *CreateDetail) Request(userID,name,nameImage,tagImage,freeImage string) error {
 	var cardID string
 	var err error
 	row := Conn.QueryRow(SelectMyCardID, userID)
@@ -139,11 +140,11 @@ func (info *CreateDetail) Request(userID,nameImage,tagImage,freeImage string) er
 		log.Println(err)
 		return err
 	}
-	stmt, err := Conn.Prepare(UpdatCardDetailInfo)
+	stmt, err := Conn.Prepare(UpdateCardDetailInfo)
 	if err != nil {
 		return err
 	}
 
-	_, err = stmt.Exec(nameImage,tagImage,freeImage,cardID)
+	_, err = stmt.Exec(name,nameImage,tagImage,freeImage,cardID)
 	return err
 }
