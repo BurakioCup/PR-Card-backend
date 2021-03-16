@@ -41,7 +41,8 @@ func main() {
 	v.Set("user_id","3314237497")
 	v.Set("count","10")
 
-	tweets, err := api.GetHomeTimeline(v)
+
+	tweets, err := api.GetUserTimeline(v)
 	if err != nil {
 		panic(err)
 	}
