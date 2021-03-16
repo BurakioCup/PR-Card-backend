@@ -28,6 +28,7 @@ func init() {
 	}
 }
 
+
 func main() {
 	// anacondaにconfig.iniの内容を設定
 	anaconda.SetConsumerKey(Config.APIKey)
@@ -37,10 +38,10 @@ func main() {
 	// twitter apiのパラメータを設定
 	// 30件取得する
 	v := url.Values{}
-	v.Set("count", "30")
+	v.Set("count", "10")
 
 	// tweetを取得
-	searchResult, _ := api.GetSearch("golang", v)
+	searchResult, _ := api.GetSearch("ハックツハッカソン", v)
 	for _, tweet := range searchResult.Statuses {
 		fmt.Println(tweet.Text)
 	}
