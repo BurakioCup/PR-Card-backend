@@ -117,7 +117,7 @@ func CreateCardOverview() gin.HandlerFunc {
 
 
 		//リクエストボディを取得
-		var upr dto.RequestCardOver
+		var upr dto.RequestCardOverSample
 		if err := c.BindJSON(&upr); err != nil {
 			view.ReturnErrorResponse(
 				c,
@@ -128,7 +128,7 @@ func CreateCardOverview() gin.HandlerFunc {
 			return
 		}
 		cardID := uuid.New().String()
-		req:=dto.RequestCardResponse(cardID,upr.FaceImage,upr.Status)
+		req:=dto.RequestCardResponse(cardID,upr.FaceImage,upr.ItemName,upr.ItemScore)
 		//takashi serverへのPOST処理
 		endpoint := "https://us-central1-prcard-ae898.cloudfunctions.net/PR_card/newIconChart"
 
