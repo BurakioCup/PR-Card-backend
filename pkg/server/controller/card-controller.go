@@ -247,7 +247,7 @@ func CreateCardDetails() gin.HandlerFunc {
 		b, _ := json.Marshal(req)
 
 		reqBody, err := http.NewRequest(
-			"PUT",
+			"POST",
 			endpoint,
 			bytes.NewBuffer(b),
 		)
@@ -267,7 +267,7 @@ func CreateCardDetails() gin.HandlerFunc {
 				c,
 				http.StatusBadRequest,
 				"Bad Request",
-				"RequestBody is empty",
+				"Takashi RequestBody is empty",
 			)
 			return
 		}
