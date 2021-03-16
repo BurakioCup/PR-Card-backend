@@ -17,8 +17,6 @@ type CreateCardOverResponse struct {
 	StatusImage string `json:"statusImage"`
 }
 
-
-
 func ReturnCreateCardResponse(faceImage, statusImage string)CreateCardOverResponse {
 	return CreateCardOverResponse{
 		//Id: id,
@@ -26,4 +24,10 @@ func ReturnCreateCardResponse(faceImage, statusImage string)CreateCardOverRespon
 		StatusImage: statusImage,
 	}
 
+}
+
+type CardDetailsResponse struct {
+	NameImage string `json:"nameImage"`
+	TagImage string `json:"tagImage"`
+	FreeImage string `json:"freeImage"`
 }

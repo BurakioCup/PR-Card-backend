@@ -12,6 +12,7 @@ const(
 	SelectMyCard = "SELECT `name_image`,`face_image`,`status_image`,`tag_image`,`free_image` FROM `cards` WHERE `id` = ?;"
 	ReadAllCardsID = "SELECT `card_id` FROM `owned_cards` WHERE `user_id` = ? "
 	readAllCards = "SELECT `name`,`face_image` FROM `cards` WHERE `id` = ? ;"
+	UpdatCardDetailInfo= "UPDATE `cards` SET `name_image`= ?,`tag_image`=?,`free_image`=? WHERE `id`=?;"
 	)
 
 var (
@@ -117,4 +118,31 @@ func getCards() error {
 		}
 	}
 	return nil
+}
+
+type CreateDetail struct {
+}
+
+func MakeCreateDetailClient() CreateDetail {
+	return CreateDetail{}
+}
+
+func (info *CreateDetail) Request(userID,nameImage,tagImage,freeImage string) error {
+	var cardID string
+	var err error
+	row := Conn.QueryRow(SelectMyCardID, userID)
+	if err = row.Scan(&cardID); err != nil {
+		if err == sql.ErrNoRows {
+			return errors.New("Not created cards")
+		}
+		log.Println(err)
+		return err
+	}
+	stmt, err := Conn.Prepare(UpdatCardDetailInfo)
+	if err != nil {
+		return err
+	}
+
+	_, err = stmt.Exec(nameImage,tagImage,freeImage,cardID)
+	return err
 }
