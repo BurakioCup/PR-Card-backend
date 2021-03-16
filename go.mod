@@ -9,6 +9,8 @@ require (
 	github.com/boombuler/barcode v1.0.1
 	github.com/cenkalti/backoff v2.2.1+incompatible
 	github.com/davecgh/go-spew v1.1.1
+	github.com/dghubble/go-twitter v0.0.0-20201011215211-4b180d0cc78d // indirect
+	github.com/dghubble/oauth1 v0.7.0
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/dustin/go-jsonpointer v0.0.0-20160814072949-ba0abeacc3dc // indirect
 	github.com/dustin/gojson v0.0.0-20160307161227-2e71ec9dd5ad // indirect
@@ -27,6 +29,6 @@ require (
 	golang.org/x/crypto v0.0.0-20210314154223-e6e6c4f2bb5b
 	golang.org/x/sys v0.0.0-20210314195730-07df6a141424 // indirect
 	google.golang.org/protobuf v1.25.0 // indirect
-	gopkg.in/ini.v1 v1.62.0 // indirect
+	gopkg.in/ini.v1 v1.62.0
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )
