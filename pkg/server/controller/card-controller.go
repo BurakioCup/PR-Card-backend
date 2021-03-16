@@ -6,11 +6,11 @@ import (
 	"PR-Card_backend/pkg/server/view"
 	"PR-Card_backend/pkg/util"
 	"bytes"
-	"github.com/google/uuid"
 	"encoding/json"
+	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"log"
 	"net/http"
-	"github.com/gin-gonic/gin"
 )
 
 func ReadMyCardHandler() gin.HandlerFunc {
@@ -67,7 +67,7 @@ func ReadCardIDHandler() gin.HandlerFunc {
 			)
 			return
 		}
-		c.JSON(http.StatusOK, view.ReturnReadCard(card))
+		c.JSON(http.StatusOK, view.ReturnReadOtherCard(card))
 	}
 }
 
@@ -282,7 +282,7 @@ func CreateCardDetails() gin.HandlerFunc {
 		}
 
 		DBclient := dao.MakeCreateDetailClient()
-		_ = DBclient.Request(userID,req.UserName.Name,requestBody.NameImage,requestBody.TagImage,requestBody.FreeImage)
+		_ = DBclient.Request(userID,req.Name,requestBody.NameImage,requestBody.TagImage,requestBody.FreeImage)
 		if err != nil {
 			log.Println(err)
 			view.ReturnErrorResponse(

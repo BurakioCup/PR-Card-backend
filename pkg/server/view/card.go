@@ -34,13 +34,26 @@ type MyCardResponse struct{
 	FreeImage string `json:"freeImage"`
 }
 
+type OtherCardResponse struct{
+	NameImage string `json:"nameImage"`
+	FaceImage string `json:"faceImage"`
+	TagImage string `json:"tagImage"`
+	StatusImage string `json:"statusImage"`
+	FreeImage string `json:"freeImage"`
+}
+
 func ReturnReadCard(card dto.MyCard)ReadCardResponse{
 	return ReadCardResponse{NameImage: card.NameImage,FaceImage: card.FaceImage,TagImage: card.TagImage,
 		StatusImage: card.StatusImage,FreeImage: card.FreeImage}
 }
 
-func ReturnReadMyCard(card dto.DetailCard)MyCardResponse{
+func ReturnReadMyCard(card dto.MyCard)MyCardResponse{
 	return MyCardResponse{UserName:card.UserName, NameImage: card.NameImage,FaceImage: card.FaceImage,TagImage: card.TagImage,
+		StatusImage: card.StatusImage,FreeImage: card.FreeImage}
+}
+
+func ReturnReadOtherCard(card dto.DetailCard)OtherCardResponse{
+	return OtherCardResponse{NameImage: card.NameImage,FaceImage: card.FaceImage,TagImage: card.TagImage,
 		StatusImage: card.StatusImage,FreeImage: card.FreeImage}
 }
 

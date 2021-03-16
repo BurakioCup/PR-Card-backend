@@ -1,8 +1,8 @@
 package dto
 
 type Chart struct {
-	ItemName  []string `json:"itemName"`
-	ItemScore []int    `json:"itemScore"`
+	ItemName  [5]string `json:"itemName"`
+	ItemScore [5]int    `json:"itemScore"`
 }
 
 type RequestCardOver struct {
@@ -12,8 +12,8 @@ type RequestCardOver struct {
 
 type RequestCardOverSample struct {
 	FaceImage string `json:"faceImage"`
-	ItemName  []string `json:"itemName"`
-	ItemScore []int    `json:"itemScore"`
+	ItemName  [5]string `json:"itemName"`
+	ItemScore [5]int    `json:"itemScore"`
 }
 
 //takashiへのリクエストボディ
@@ -31,10 +31,12 @@ type CreateCardOverResponse struct {
 	StatusImage string `json:"statusImage"`
 }
 
-func RequestCardResponse(cardID,faceImage string,itemName []string,itemScore []int)RequestCardOverNode{
+func RequestCardResponse(cardID,faceImage string,itemName [5]string,itemScore [5]int)RequestCardOverNode{
 	var chart Chart
-	chart.ItemName=itemName
-	chart.ItemScore=itemScore
+	for i := 0; i < 5; i++ {
+		chart.ItemName[i] = itemName[i]
+		chart.ItemScore[i] = itemScore[i]
+	}
 	return RequestCardOverNode{
 		FaceImage :faceImage,
 		FaceImageName : cardID+"_"+"faceImage"+".png",
@@ -48,7 +50,8 @@ func (r RequestCardOver) Read(p []byte) (n int, err error) {
 }
 
 type CardDetailRequest struct{
-	UserName UserName `json:"userName"`
+	Name string `json:"name"`
+	NickName string `json:"nickName"`
 	HashTags [4]string `json:"hashTags"`
 	FreeText string `json:"freeText"`
 }
@@ -68,8 +71,11 @@ type CardDetailNode struct{
 }
 
 func RequestCardDetailResponse(cardID string,req CardDetailRequest)CardDetailNode{
+	var userName UserName
+	userName.Name=req.Name
+	userName.NickName=req.NickName
 	return CardDetailNode{
-		UserName: req.UserName,
+		UserName: userName,
 		UserNameFileN : cardID+"_"+"nameImage"+".png",
 		HashTags: req.HashTags,
 		HashTagsFileN:cardID+"_"+"tagImage"+".png",
