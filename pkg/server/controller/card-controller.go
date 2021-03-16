@@ -7,6 +7,7 @@ import (
 	"PR-Card_backend/pkg/util"
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"log"
@@ -238,6 +239,7 @@ func CreateCardDetails() gin.HandlerFunc {
 		}
 
 		reqNode:=dto.RequestCardDetailResponse(cardID,req)
+		fmt.Println(reqNode)
 		endpoint := "https://us-central1-prcard-ae898.cloudfunctions.net/PR_card/createNameTexts"
 		b, _ := json.Marshal(reqNode)
 		reqBody, err := http.NewRequest(
@@ -282,7 +284,7 @@ func CreateCardDetails() gin.HandlerFunc {
 		}
 
 		DBclient := dao.MakeCreateDetailClient()
-		_ = DBclient.Request(userID,req.UserName.Name,requestBody.NameImage,requestBody.TagImage,requestBody.FreeImage)
+		_ = DBclient.Request(userID,req.NickName,req.Name,requestBody.NameImage,requestBody.TagImage,requestBody.FreeImage)
 		if err != nil {
 			log.Println(err)
 			view.ReturnErrorResponse(

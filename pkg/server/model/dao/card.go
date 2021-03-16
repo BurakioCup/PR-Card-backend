@@ -129,7 +129,7 @@ func MakeCreateDetailClient() CreateDetail {
 	return CreateDetail{}
 }
 
-func (info *CreateDetail) Request(userID,name,nameImage,tagImage,freeImage string) error {
+func (info *CreateDetail) Request(userID,name,nickName,nameImage,tagImage,freeImage string) error {
 	var cardID string
 	var err error
 	row := Conn.QueryRow(SelectMyCardID, userID)

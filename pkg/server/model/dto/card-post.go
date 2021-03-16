@@ -50,7 +50,8 @@ func (r RequestCardOver) Read(p []byte) (n int, err error) {
 }
 
 type CardDetailRequest struct{
-	UserName UserName `json:"userName"`
+	Name string `json:"name"`
+	NickName string `json:"nickName"`
 	HashTags [4]string `json:"hashTags"`
 	FreeText string `json:"freeText"`
 }
@@ -70,8 +71,11 @@ type CardDetailNode struct{
 }
 
 func RequestCardDetailResponse(cardID string,req CardDetailRequest)CardDetailNode{
+	var userName UserName
+	userName.Name=req.Name
+	userName.NickName=req.NickName
 	return CardDetailNode{
-		UserName: req.UserName,
+		UserName: userName,
 		UserNameFileN : cardID+"_"+"nameImage"+".png",
 		HashTags: req.HashTags,
 		HashTagsFileN:cardID+"_"+"tagImage"+".png",
