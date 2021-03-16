@@ -10,15 +10,11 @@ import (
 const(
 	SelectMyCardID = "SELECT `card_id` FROM `users` WHERE `id` =?;"
 	SelectMyCard = "SELECT `name`,`name_image`,`face_image`,`status_image`,`tag_image`,`free_image` FROM `cards` WHERE `id` = ?;"
+	SelectOtherCard = "SELECT `name_image`,`face_image`,`status_image`,`tag_image`,`free_image` FROM `cards` WHERE `id` = ?;"
 	ReadAllCardsID = "SELECT `card_id` FROM `owned_cards` WHERE `user_id` = ? "
 	readAllCards = "SELECT `name`,`face_image` FROM `cards` WHERE `id` = ? ;"
 	UpdateCardDetailInfo = "UPDATE `cards` SET `name`=?,`name_image`= ?,`tag_image`=?,`free_image`=? WHERE `id`=?;"
 	)
-
-var (
-	DetailCard dto.DetailCard
-	MyCard dto.MyCard
-)
 
 type readMyCard struct{
 }
@@ -27,23 +23,38 @@ func MakeReadMyCardClient()readMyCard{
 	return readMyCard{}
 }
 
-func (info *readMyCard)Request(userID string)(dto.DetailCard,error){
+func (info *readMyCard)Request(userID string)(dto.MyCard,error){
+	var myCard dto.MyCard
 	var cardID string
 	var err error
 	row := Conn.QueryRow(SelectMyCardID, userID)
 	if err = row.Scan(&cardID); err != nil {
 		if err == sql.ErrNoRows {
-			return DetailCard, errors.New("Not created cards")
-			return DetailCard, errors.New("Not created cards")
+			return myCard, errors.New("Not created cards")
 		}
 		log.Println(err)
-		return DetailCard, err
+		return myCard, err
 	}
-	getCardInfo(cardID)
-  	return DetailCard, err
+	myCard,err=getMyCardInfo(cardID)
+	if err != nil {
+		log.Println(err)
+		return myCard,err
+	}
+  	return myCard, err
 }
 
-
+func getMyCardInfo(cardID string)(dto.MyCard,error){
+	var myCard dto.MyCard
+	row := Conn.QueryRow(SelectMyCard, cardID)
+	if err := row.Scan(&myCard.UserName,&myCard.NameImage,&myCard.FaceImage,&myCard.StatusImage,&myCard.TagImage,&myCard.FreeImage); err != nil {
+		if err == sql.ErrNoRows {
+			return myCard,errors.New("Not created cards")
+		}
+		log.Println(err)
+		return myCard,err
+	}
+	return myCard,nil
+}
 
 type readCardID struct{
 }
@@ -52,24 +63,25 @@ func MakeReadCardIDClient()readCardID{
 	return readCardID{}
 }
 
-func (infom* readCardID)Request(cardID string)(dto.MyCard,error){
-	err := getCardInfo(cardID)
+func (infom* readCardID)Request(cardID string)(dto.DetailCard,error){
+	detailCard,err := getOtherCardInfo(cardID)
 	if err != nil {
-		return MyCard,err
+		return detailCard,err
 	}
-  	return MyCard, err
+  	return detailCard, err
 }
 
-func getCardInfo(cardID string)error{
-	row := Conn.QueryRow(SelectMyCard, cardID)
-	if err := row.Scan(&MyCard.NameImage,&MyCard.FaceImage,&MyCard.StatusImage,&MyCard.TagImage,&MyCard.FreeImage); err != nil {
+func getOtherCardInfo(cardID string)(dto.DetailCard,error){
+	var card dto.DetailCard
+	row := Conn.QueryRow(SelectOtherCard, cardID)
+	if err := row.Scan(&card.NameImage,&card.FaceImage,&card.StatusImage,&card.TagImage,&card.FreeImage); err != nil {
 		if err == sql.ErrNoRows {
-			return errors.New("Not created cards")
+			return card,errors.New("Not created cards")
 		}
 		log.Println(err)
-		return err
+		return card,err
 	}
-	return nil
+	return card,nil
 }
 
 // read/all

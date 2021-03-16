@@ -6,7 +6,6 @@ import (
 )
 
 type DetailCard struct{
-	UserName string
 	NameImage string
 	FaceImage string
 	StatusImage string
@@ -16,6 +15,7 @@ type DetailCard struct{
 
 
 type MyCard struct{
+	UserName string
 	NameImage string
 	FaceImage string
 	StatusImage string
