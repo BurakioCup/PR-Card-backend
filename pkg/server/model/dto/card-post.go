@@ -31,11 +31,14 @@ type CreateCardOverResponse struct {
 	StatusImage string `json:"statusImage"`
 }
 
-func RequestCardResponse(cardID,faceImage string,status Chart)RequestCardOverNode{
+func RequestCardResponse(cardID,faceImage string,itemName []string,itemScore []int)RequestCardOverNode{
+	var chart Chart
+	chart.ItemName=itemName
+	chart.ItemScore=itemScore
 	return RequestCardOverNode{
 		FaceImage :faceImage,
 		FaceImageName : cardID+"_"+"faceImage"+".png",
-		Status  : status,
+		Status  : chart,
 		StatusImageName:cardID+"_"+"statusImage"+".png",
 	}
 }
