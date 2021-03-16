@@ -12,7 +12,7 @@ const(
 	SelectMyCard = "SELECT `name_image`,`face_image`,`status_image`,`tag_image`,`free_image` FROM `cards` WHERE `id` = ?;"
 	ReadAllCardsID = "SELECT `card_id` FROM `owned_cards` WHERE `user_id` = ? "
 	readAllCards = "SELECT `name`,`face_image` FROM `cards` WHERE `id` = ? ;"
-	UpdatCardDetailInfo= "UPDATE `cards` SET `name_image`= ?,`tag_image`=?,`free_image`=? WHERE `id`=?;"
+	UpdatCardDetailInfo = "UPDATE `cards` SET `name_image`= ?,`tag_image`=?,`free_image`=? WHERE `id`=?;"
 	)
 
 var (

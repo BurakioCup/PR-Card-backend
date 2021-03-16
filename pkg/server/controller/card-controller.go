@@ -174,7 +174,7 @@ func CreateCardOverview() gin.HandlerFunc {
 		responseBody := view.ReturnCreateCardResponse(requestBody.FaceImage,requestBody.StatusImage)
 		clientCard := dao.MakePostChartClientClient()
 
-		_ = clientCard.Request(cardID, responseBody.FaceImage, responseBody.StatusImage)
+		_ = clientCard.Request(cardID, responseBody.FaceImage, responseBody.StatusImage,userID)
 		if err != nil {
 			log.Println(err)
 			view.ReturnErrorResponse(
