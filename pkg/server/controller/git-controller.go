@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"PR-Card_backend/pkg/hash"
 	"PR-Card_backend/pkg/server/model/dao"
 	"PR-Card_backend/pkg/server/view"
 	"github.com/gin-gonic/gin"
@@ -23,7 +22,7 @@ func GitStatusHandler() gin.HandlerFunc {
 			return
 		}
 		client := dao.MakeGitStatusClient()
-		statusImage, err := client.Request(userID, hash.CreateHashString(pass))
+		statusImage, err := client.Request(gitName)
 		if err != nil {
 			log.Println(err)
 			view.ReturnErrorResponse(
@@ -34,5 +33,6 @@ func GitStatusHandler() gin.HandlerFunc {
 			)
 			return
 		}
+		c.JSON(http.StatusOK, view.ReturnGitStatusResponse(statusImage))
 	}
 }
