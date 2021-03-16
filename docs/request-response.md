@@ -66,7 +66,7 @@ token:""
 - response
 ```cassandraql
 {
-    "qrImage": "https://qrコードだよー"
+    "qrImage": "iVBORw0KGgoAAAANSUhEUgAAAMgAAADIEAAAAADYoy0BAAADBUlEQVR4nOzd0YrbOhRA0Zt"
 }
 ```
 
