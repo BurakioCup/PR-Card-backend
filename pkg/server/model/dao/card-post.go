@@ -2,7 +2,7 @@ package dao
 
 const (
 	InsertcardInfoQuery    = "INSERT INTO `cards` (id,face_image,status_image) VALUES (?,?,?)"
-	UpdatUserInfo = "UPDATE `users` SET `card_id`= ? WHERE `id`=?;"
+	UpdatUserInfo = "UPDATE users SET card_id = ? WHERE id = ?"
 )
 
 type createChart struct {
@@ -14,7 +14,6 @@ func MakePostChartClientClient() createChart {
 
 func (info *createChart) Request(id,face_image, status_image,userID string) error {
 
-
 	stmt, err := Conn.Prepare(InsertcardInfoQuery)
 	if err != nil {
 		return err
@@ -22,11 +21,15 @@ func (info *createChart) Request(id,face_image, status_image,userID string) erro
 	_, err = stmt.Exec(id, face_image, status_image)
 	return err
 
-	stmt2, err := Conn.Prepare(UpdatUserInfo)
+}
+
+func (info *createChart) UpdateRequest(id,userID string) error {
+
+	stmt, err := Conn.Prepare(UpdatUserInfo)
 	if err != nil {
 		return err
 	}
 
-	_, err = stmt2.Exec(id,userID)
+	_, err = stmt.Exec(id,userID)
 	return err
 }
