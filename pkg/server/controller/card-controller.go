@@ -102,6 +102,7 @@ func ReadAllHandler() gin.HandlerFunc {
 
 func CreateCardOverview() gin.HandlerFunc {
 	return func(c *gin.Context) {
+
 		userID := c.GetString("userID")
 		if userID == "" {
 			log.Println("[ERROR] userID is empty")
@@ -113,6 +114,7 @@ func CreateCardOverview() gin.HandlerFunc {
 			)
 			return
 		}
+
 
 		//リクエストボディを取得
 		var upr dto.RequestCardOver
@@ -128,7 +130,7 @@ func CreateCardOverview() gin.HandlerFunc {
 		cardID := uuid.New().String()
 		req:=dto.RequestCardResponse(cardID,upr.FaceImage,upr.Status)
 		//takashi serverへのPOST処理
-		endpoint := "http://localhost:3000/newIconChart"
+		endpoint := "https://us-central1-prcard-ae898.cloudfunctions.net/PR_card/newIconChart"
 
 		b, _ := json.Marshal(req)
 
@@ -165,16 +167,15 @@ func CreateCardOverview() gin.HandlerFunc {
 				c,
 				http.StatusBadRequest,
 				"Bad Request",
-				"RequestBody is empty",
+				"client POST RequestBody is empty",
 			)
 			return
 		}
 
-
 		responseBody := view.ReturnCreateCardResponse(requestBody.FaceImage,requestBody.StatusImage)
 		clientCard := dao.MakePostChartClientClient()
 
-		_ = clientCard.Request(cardID, responseBody.FaceImage, responseBody.StatusImage)
+		_ = clientCard.Request(cardID, responseBody.FaceImage, responseBody.StatusImage,userID)
 		if err != nil {
 			log.Println(err)
 			view.ReturnErrorResponse(
@@ -182,6 +183,17 @@ func CreateCardOverview() gin.HandlerFunc {
 				http.StatusInternalServerError,
 				"Internal Server Error",
 				"Failed to get MyCard info",
+			)
+			return
+		}
+		_ = clientCard.UpdateRequest(cardID,userID)
+		if err != nil {
+			log.Println(err)
+			view.ReturnErrorResponse(
+				c,
+				http.StatusInternalServerError,
+				"Internal Server Error",
+				"Not update userTable",
 			)
 			return
 		}
