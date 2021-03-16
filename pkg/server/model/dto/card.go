@@ -5,6 +5,16 @@ import (
 	"log"
 )
 
+type DetailCard struct{
+	UserName string
+	NameImage string
+	FaceImage string
+	StatusImage string
+	TagImage string
+	FreeImage string
+}
+
+
 type MyCard struct{
 	NameImage string
 	FaceImage string

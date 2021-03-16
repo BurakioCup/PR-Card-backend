@@ -9,7 +9,7 @@ import (
 
 const(
 	SelectMyCardID = "SELECT `card_id` FROM `users` WHERE `id` =?;"
-	SelectMyCard = "SELECT `name_image`,`face_image`,`status_image`,`tag_image`,`free_image` FROM `cards` WHERE `id` = ?;"
+	SelectMyCard = "SELECT `name`,`name_image`,`face_image`,`status_image`,`tag_image`,`free_image` FROM `cards` WHERE `id` = ?;"
 	ReadAllCardsID = "SELECT `card_id` FROM `owned_cards` WHERE `user_id` = ? "
 	readAllCards = "SELECT `name`,`face_image` FROM `cards` WHERE `id` = ? ;"
 	UpdatCardDetailInfo= "UPDATE `cards` SET `name_image`= ?,`tag_image`=?,`free_image`=? WHERE `id`=?;"
@@ -18,6 +18,7 @@ const(
 var (
 	Cards []dto.Card
 	Card *dto.Card
+	DetailCard dto.DetailCard
 	MyCard dto.MyCard
 )
 
@@ -28,19 +29,19 @@ func MakeReadMyCardClient()readMyCard{
 	return readMyCard{}
 }
 
-func (info *readMyCard)Request(userID string)(dto.MyCard,error){
+func (info *readMyCard)Request(userID string)(dto.DetailCard,error){
 	var cardID string
 	var err error
 	row := Conn.QueryRow(SelectMyCardID, userID)
 	if err = row.Scan(&cardID); err != nil {
 		if err == sql.ErrNoRows {
-			return MyCard, errors.New("Not created cards")
+			return DetailCard, errors.New("Not created cards")
 		}
 		log.Println(err)
-		return MyCard, err
+		return DetailCard, err
 	}
 	getCardInfo(cardID)
-  	return MyCard, err
+  	return DetailCard, err
 }
 
 
