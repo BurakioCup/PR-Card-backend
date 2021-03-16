@@ -75,17 +75,20 @@ type HashTags struct {
 type RequestCardDetailsNode struct {
 	UserName UserName `json:"userName"`
 	UserFileName string  `json:"userNameFileN"`
-	NickName string `json:"nickName"`
 	HashTags HashTags `json:"hashTags"`
+	HashTagsImage string `json:"hashTagsFileN"`
 	FreeText string `json:"freeText"`
+	FreeTextImage string `json:"freeTextFileN"`
 }
 
-func RequestCardDetailsResponse(cardID,faceImage string,status Chart)RequestCardDetailsNode{
+func RequestCardDetailsResponse(name UserName,cardID, freetext string,tags HashTags)RequestCardDetailsNode{
 	return RequestCardDetailsNode{
-		FaceImage :faceImage,
-		FaceImageName : cardID+"_"+"faceImage"+".png",
-		Status  : status,
-		StatusImageName:cardID+"_"+"statusImage"+".png",
+		UserName :name,
+		UserFileName : cardID+"_"+"userImage"+".png",
+		HashTags : tags,
+		HashTagsImage :cardID+"_"+"tagsImage"+".png",
+		FreeText: freetext,
+		FreeTextImage: cardID+"_"+"freeTextImage"+".png",
 	}
 }
 
