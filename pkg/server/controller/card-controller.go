@@ -191,13 +191,6 @@ func CreateCardOverview() gin.HandlerFunc {
 
 func CreateCardDetails() gin.HandlerFunc {
 	return func(c *gin.Context) {
-
-		c.JSON(http.StatusOK, "")
-	}
-}
-
-func UpdateCard() gin.HandlerFunc {
-	return func(c *gin.Context) {
 		userID := c.GetString("userID")
 		if userID == "" {
 			log.Println("[ERROR] userID is empty")
@@ -217,7 +210,7 @@ func UpdateCard() gin.HandlerFunc {
 				c,
 				http.StatusBadRequest,
 				"Bad Request",
-				"RequestBody is error",
+				"Request Body is error",
 			)
 			return
 		}
@@ -231,26 +224,27 @@ func UpdateCard() gin.HandlerFunc {
 			)
 			return
 		}
+
 		reqNode:=dto.RequestCardDetailResponse(cardID,req)
-		//takashi serverへのPOST処理
-		// TODO 下記endpoint変更
 		endpoint := "https://us-central1-prcard-ae898.cloudfunctions.net/PR_card/createNameTexts"
-
 		b, _ := json.Marshal(reqNode)
-
 		reqBody, err := http.NewRequest(
 			"POST",
 			endpoint,
 			bytes.NewBuffer(b),
 		)
-
 		if err != nil {
 			log.Println(err)
+			view.ReturnErrorResponse(
+				c,
+				http.StatusInternalServerError,
+				"InternalServerErro",
+				"Image generate is failed",
+			)
 			return
 		}
 
 		reqBody.Header.Set("Content-Type", "application/json")
-
 		client := &http.Client{}
 		resp, err := client.Do(reqBody)
 		if err != nil {
@@ -258,18 +252,19 @@ func UpdateCard() gin.HandlerFunc {
 				c,
 				http.StatusBadRequest,
 				"Bad Request",
-				"ResponseBody is empty",
+				"Error from Image generater",
 			)
 			return
 		}
-		//ボディの取得
+
+		//画像生成APIからのレスポンスの取得
 		var requestBody view.CardDetailsResponse
 		if err := json.NewDecoder(resp.Body).Decode(&requestBody); err != nil {
 			view.ReturnErrorResponse(
 				c,
-				http.StatusBadRequest,
-				"Bad Request",
-				"RequestBody is empty",
+				http.StatusInternalServerError,
+				"InternalServerError",
+				"ResponseBody from Image generater is empty",
 			)
 			return
 		}
@@ -282,7 +277,7 @@ func UpdateCard() gin.HandlerFunc {
 				c,
 				http.StatusInternalServerError,
 				"Internal Server Error",
-				"Failed to get MyCard info",
+				"Failed to insert card info",
 			)
 			return
 		}
