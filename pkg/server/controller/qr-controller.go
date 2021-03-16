@@ -1,7 +1,9 @@
 package controller
 
 import (
-	"PR-Card_backend/pkg/server/model/dao"
+	"PR-Card_backend/pkg/qr"
+	//"PR-Card_backend/pkg/server/model/dao"
+	"PR-Card_backend/pkg/util"
 	"PR-Card_backend/pkg/server/view"
 	"github.com/gin-gonic/gin"
 	"log"
@@ -21,18 +23,30 @@ func ReadQRHandler()gin.HandlerFunc{
 			)
 			return
 		}
-		client := dao.MakeReadQRClient()
-		cardQR,err := client.Request(userID)
+		cardID,err := util.GetCardID(userID)
 		if err!=nil{
 			log.Println(err)
 			view.ReturnErrorResponse(
 				c,
 				http.StatusInternalServerError,
 				"Internal Server Error",
-				"Failed to select card",
+				"Failed to get cardID",
 			)
 			return
 		}
-		c.JSON(http.StatusOK, view.ReturnReadQRResponse(cardQR))
+
+		//client := dao.MakeReadQRClient()
+		//cardQR,err := client.Request(userID)
+		//if err!=nil{
+		//	log.Println(err)
+		//	view.ReturnErrorResponse(
+		//		c,
+		//		http.StatusInternalServerError,
+		//		"Internal Server Error",
+		//		"Failed to select card",
+		//	)
+		//	return
+		//}
+		c.JSON(http.StatusOK, view.ReturnReadQRResponse(qr.CreateQRCode(cardID)))
 	}
 }
