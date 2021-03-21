@@ -30,4 +30,6 @@ func init() {
 	Server.POST("/create/card/details", middleware.Authenticate(controller.CreateCardDetails()))
 	//名刺を表示するためのQRのリンクを送信
 	Server.GET("/read/qr", middleware.Authenticate(controller.ReadQRHandler()))
+	//githubのステータスを送信
+	Server.GET("/git/status", middleware.Authenticate(controller.GitStatusHandler()))
 }
